@@ -18,7 +18,7 @@
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: var(--burgundy-muted);
+  background: linear-gradient(135deg, var(--burgundy-muted), rgba(212, 160, 85, 0.08));
   color: var(--burgundy);
   display: flex;
   align-items: center;
@@ -54,7 +54,7 @@
   font-size: 15px;
   background: var(--white);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.25s ease;
 }
 
 .login-form input:focus {
@@ -64,7 +64,7 @@
 
 .login-form button {
   padding: 14px;
-  background: var(--burgundy);
+  background: var(--gradient-burgundy);
   color: var(--white);
   border: none;
   border-radius: 100px;
@@ -72,16 +72,19 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(122, 34, 52, 0.2);
 }
 
 .login-form button:hover {
-  background: var(--burgundy-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(122, 34, 52, 0.3);
 }
 
 .login-form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .login-error {
@@ -114,23 +117,25 @@
   padding: 10px 20px;
   border: 1px solid var(--border);
   border-radius: 100px;
-  background: var(--white);
+  background: var(--gradient-card);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
 }
 
 .refresh-btn:hover {
   border-color: var(--burgundy);
   color: var(--burgundy);
+  transform: translateY(-1px);
 }
 
 .refresh-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Stats */
@@ -142,11 +147,17 @@
 }
 
 .stat-card {
-  background: var(--white);
+  background: var(--gradient-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
   text-align: center;
+  transition: all 0.25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-label {
@@ -162,7 +173,10 @@
   font-family: var(--font-serif);
   font-size: 36px;
   font-weight: 700;
-  color: var(--burgundy);
+  background: var(--gradient-burgundy);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Table */
@@ -173,7 +187,7 @@
 .empty-state {
   text-align: center;
   padding: 60px 24px;
-  background: var(--white);
+  background: var(--gradient-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   color: var(--text-muted);
@@ -181,10 +195,11 @@
 }
 
 .table-wrapper {
-  background: var(--white);
+  background: var(--gradient-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .rsvp-table {

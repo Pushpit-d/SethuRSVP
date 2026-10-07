@@ -2,10 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(253, 248, 244, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 249, 245, 0.8);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid rgba(122, 34, 52, 0.06);
 }
 
 .navbar-inner {
@@ -21,36 +21,158 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
 }
 
-.brand-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--burgundy);
-  color: var(--white);
+.brand-badge {
+  position: relative;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 600;
 }
 
-.brand-text {
+.brand-rings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ring-outer {
+  animation: spin-slow 12s linear infinite;
+  transform-origin: 26px 26px;
+  stroke-dasharray: 8 6;
+}
+
+.ring-glow {
+  animation: spin-slow 12s linear infinite reverse;
+  transform-origin: 26px 26px;
+  stroke-dasharray: 4 12;
+  filter: blur(2px);
+  opacity: 0.6;
+}
+
+.ring-inner {
+  animation: spin-slow 20s linear infinite;
+  transform-origin: 26px 26px;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+.brand-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gradient-burgundy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 20px rgba(122, 34, 52, 0.3);
+  animation: badge-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes badge-entrance {
+  from {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.brand-number {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.5px;
+}
+
+.brand-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.sparkle.s1 {
+  top: 2px;
+  right: 8px;
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+.sparkle.s2 {
+  bottom: 4px;
+  left: 6px;
+  animation: twinkle 2.4s ease-in-out 0.6s infinite;
+}
+
+.sparkle.s3 {
+  top: 12px;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  animation: twinkle 2.4s ease-in-out 1.2s infinite;
+}
+
+.sparkle.s4 {
+  bottom: 8px;
+  right: 2px;
+  width: 3px;
+  height: 3px;
+  animation: twinkle 2.4s ease-in-out 1.8s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.brand-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.brand-name {
   font-family: var(--font-serif);
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
   letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+
+.brand-sub {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .navbar-links a {
@@ -60,7 +182,7 @@
   font-weight: 500;
   color: var(--text-secondary);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   letter-spacing: 0.2px;
 }
 
@@ -75,18 +197,20 @@
 }
 
 .navbar-links .nav-rsvp {
-  background: var(--burgundy);
+  background: var(--gradient-burgundy);
   color: var(--white);
   margin-left: 4px;
+  box-shadow: 0 2px 10px rgba(122, 34, 52, 0.2);
 }
 
 .navbar-links .nav-rsvp:hover {
-  background: var(--burgundy-light);
+  box-shadow: 0 4px 16px rgba(122, 34, 52, 0.3);
   color: var(--white);
+  transform: translateY(-1px);
 }
 
 .navbar-links .nav-rsvp.active {
-  background: var(--burgundy);
+  background: var(--gradient-burgundy);
   color: var(--white);
 }
 
@@ -96,7 +220,7 @@
     height: 64px;
   }
 
-  .brand-text {
+  .brand-label {
     display: none;
   }
 
