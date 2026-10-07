@@ -1,7 +1,7 @@
 import { neon } from '@neondatabase/serverless'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 const EVENT = {
   title: "Sethu's 60th Birthday Celebration",
@@ -95,24 +95,26 @@ export default async function handler(req, res) {
         VALUES (${firstName}, ${lastName}, ${email}, ${phone || null}, ${guestCount}, ${JSON.stringify(mealPreferences)}, NOW())
       `
 
-      const fromAddress = process.env.EMAIL_FROM || 'Sethu at 60 <onboarding@resend.dev>'
+      if (resend) {
+        const fromAddress = process.env.EMAIL_FROM || 'Sethu at 60 <onboarding@resend.dev>'
 
-      await Promise.allSettled([
-        resend.emails.send({
-          from: fromAddress,
-          to: [email],
-          subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
-          html: buildGuestEmail(firstName, guestCount, mealPreferences),
-        }),
-        process.env.HOST_EMAIL
-          ? resend.emails.send({
-              from: fromAddress,
-              to: [process.env.HOST_EMAIL],
-              subject: `New RSVP: ${firstName} ${lastName} (${guestCount} guest${guestCount > 1 ? 's' : ''})`,
-              html: buildHostEmail(firstName, lastName, email, phone, guestCount, mealPreferences),
-            })
-          : Promise.resolve(),
-      ])
+        await Promise.allSettled([
+          resend.emails.send({
+            from: fromAddress,
+            to: [email],
+            subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
+            html: buildGuestEmail(firstName, guestCount, mealPreferences),
+          }),
+          process.env.HOST_EMAIL
+            ? resend.emails.send({
+                from: fromAddress,
+                to: [process.env.HOST_EMAIL],
+                subject: `New RSVP: ${firstName} ${lastName} (${guestCount} guest${guestCount > 1 ? 's' : ''})`,
+                html: buildHostEmail(firstName, lastName, email, phone, guestCount, mealPreferences),
+              })
+            : Promise.resolve(),
+        ])
+      }
 
       return res.status(200).json({ success: true, message: 'RSVP received!' })
     } catch (err) {
