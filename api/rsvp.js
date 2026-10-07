@@ -52,25 +52,6 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
   `
 }
 
-function buildHostEmail(firstName, lastName, email, phone, guestCount, mealPreferences) {
-  const mealSummary = mealPreferences
-    .map((m) => `Guest ${m.guest}: ${m.preference}`)
-    .join(', ')
-
-  return `
-    <div style="font-family: -apple-system, sans-serif; max-width: 500px; color: #2D1F1F;">
-      <h2 style="font-size: 18px; margin: 0 0 16px;">New RSVP Received</h2>
-      <table style="font-size: 14px; line-height: 1.8;">
-        <tr><td style="color: #9A8F8F; padding-right: 16px;">Name</td><td><strong>${firstName} ${lastName}</strong></td></tr>
-        <tr><td style="color: #9A8F8F; padding-right: 16px;">Email</td><td>${email}</td></tr>
-        <tr><td style="color: #9A8F8F; padding-right: 16px;">Phone</td><td>${phone || 'Not provided'}</td></tr>
-        <tr><td style="color: #9A8F8F; padding-right: 16px;">Guests</td><td>${guestCount}</td></tr>
-        <tr><td style="color: #9A8F8F; padding-right: 16px;">Meals</td><td>${mealSummary}</td></tr>
-      </table>
-    </div>
-  `
-}
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -98,22 +79,12 @@ export default async function handler(req, res) {
       if (resend) {
         const fromAddress = process.env.EMAIL_FROM || 'Sethu at 60 <onboarding@resend.dev>'
 
-        await Promise.allSettled([
-          resend.emails.send({
-            from: fromAddress,
-            to: [email],
-            subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
-            html: buildGuestEmail(firstName, guestCount, mealPreferences),
-          }),
-          process.env.HOST_EMAIL
-            ? resend.emails.send({
-                from: fromAddress,
-                to: [process.env.HOST_EMAIL],
-                subject: `New RSVP: ${firstName} ${lastName} (${guestCount} guest${guestCount > 1 ? 's' : ''})`,
-                html: buildHostEmail(firstName, lastName, email, phone, guestCount, mealPreferences),
-              })
-            : Promise.resolve(),
-        ])
+        await resend.emails.send({
+          from: fromAddress,
+          to: [email],
+          subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
+          html: buildGuestEmail(firstName, guestCount, mealPreferences),
+        }).catch(() => {})
       }
 
       return res.status(200).json({ success: true, message: 'RSVP received!' })

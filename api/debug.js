@@ -1,28 +1,27 @@
 import { neon } from '@neondatabase/serverless'
 
 export default async function handler(req, res) {
-  const envKeys = Object.keys(process.env).filter(k =>
-    k.includes('DATABASE') || k.includes('NEON') || k.includes('POSTGRES') ||
-    k.includes('RESEND') || k.includes('ADMIN') || k.includes('EMAIL') || k.includes('HOST')
-  )
-
   let dbStatus = 'not tested'
-  let tableExists = false
+  let tables = []
 
   try {
     const sql = neon(process.env.DATABASE_URL)
-    const result = await sql`SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'rsvps')`
-    tableExists = result[0].exists
+    const result = await sql`
+      SELECT table_name, column_name, data_type
+      FROM information_schema.columns
+      WHERE table_schema = 'public'
+      ORDER BY table_name, ordinal_position
+    `
     dbStatus = 'connected'
+    const grouped = {}
+    for (const row of result) {
+      if (!grouped[row.table_name]) grouped[row.table_name] = []
+      grouped[row.table_name].push({ column: row.column_name, type: row.data_type })
+    }
+    tables = grouped
   } catch (err) {
     dbStatus = `error: ${err.message}`
   }
 
-  res.status(200).json({
-    ok: true,
-    envKeysFound: envKeys,
-    nodeVersion: process.version,
-    dbStatus,
-    tableExists,
-  })
+  res.status(200).json({ dbStatus, tables })
 }
