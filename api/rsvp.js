@@ -1,15 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
+import { neon } from '@neondatabase/serverless'
 import { Resend } from 'resend'
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-)
-
-const supabaseAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-)
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -90,6 +80,8 @@ export default async function handler(req, res) {
     return res.status(200).end()
   }
 
+  const sql = neon(process.env.DATABASE_URL)
+
   if (req.method === 'POST') {
     try {
       const { firstName, lastName, email, phone, guestCount, mealPreferences } = req.body
@@ -98,27 +90,10 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'First name, last name, and email are required.' })
       }
 
-      const { error } = await supabase
-        .from('rsvps')
-        .insert([
-          {
-            first_name: firstName,
-            last_name: lastName,
-            email,
-            phone: phone || null,
-            guest_count: guestCount,
-            meal_preferences: mealPreferences,
-            submitted_at: new Date().toISOString(),
-          },
-        ])
-
-      if (error) {
-        if (error.code === '23505') {
-          return res.status(409).json({ error: 'This email has already been used to RSVP. If you need to update your response, please contact us.' })
-        }
-        console.error('Supabase error:', error)
-        return res.status(500).json({ error: 'Something went wrong. Please try again.' })
-      }
+      await sql`
+        INSERT INTO rsvps (first_name, last_name, email, phone, guest_count, meal_preferences, submitted_at)
+        VALUES (${firstName}, ${lastName}, ${email}, ${phone || null}, ${guestCount}, ${JSON.stringify(mealPreferences)}, NOW())
+      `
 
       const fromAddress = process.env.EMAIL_FROM || 'Sethu at 60 <onboarding@resend.dev>'
 
@@ -141,6 +116,9 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ success: true, message: 'RSVP received!' })
     } catch (err) {
+      if (err.code === '23505') {
+        return res.status(409).json({ error: 'This email has already been used to RSVP. If you need to update your response, please contact us.' })
+      }
       console.error('Server error:', err)
       return res.status(500).json({ error: 'Something went wrong. Please try again.' })
     }
@@ -152,32 +130,30 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
-    const { data, error } = await supabaseAdmin
-      .from('rsvps')
-      .select('*')
-      .order('submitted_at', { ascending: false })
+    try {
+      const data = await sql`SELECT * FROM rsvps ORDER BY submitted_at DESC`
 
-    if (error) {
+      const totalGuests = data.reduce((sum, r) => sum + r.guest_count, 0)
+      const totalVeg = data.reduce((sum, r) => {
+        return sum + (r.meal_preferences || []).filter((m) => m.preference === 'vegetarian').length
+      }, 0)
+      const totalNonVeg = data.reduce((sum, r) => {
+        return sum + (r.meal_preferences || []).filter((m) => m.preference === 'non-vegetarian').length
+      }, 0)
+
+      return res.status(200).json({
+        rsvps: data,
+        summary: {
+          totalRsvps: data.length,
+          totalGuests,
+          totalVeg,
+          totalNonVeg,
+        },
+      })
+    } catch (err) {
+      console.error('Database error:', err)
       return res.status(500).json({ error: 'Failed to fetch RSVPs.' })
     }
-
-    const totalGuests = data.reduce((sum, r) => sum + r.guest_count, 0)
-    const totalVeg = data.reduce((sum, r) => {
-      return sum + (r.meal_preferences || []).filter((m) => m.preference === 'vegetarian').length
-    }, 0)
-    const totalNonVeg = data.reduce((sum, r) => {
-      return sum + (r.meal_preferences || []).filter((m) => m.preference === 'non-vegetarian').length
-    }, 0)
-
-    return res.status(200).json({
-      rsvps: data,
-      summary: {
-        totalRsvps: data.length,
-        totalGuests,
-        totalVeg,
-        totalNonVeg,
-      },
-    })
   }
 
   return res.status(405).json({ error: 'Method not allowed' })
