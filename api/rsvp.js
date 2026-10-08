@@ -14,42 +14,108 @@ const EVENT = {
 }
 
 function buildGuestEmail(firstName, guestCount, mealPreferences) {
-  const mealSummary = mealPreferences
-    .map((m) => `Guest ${m.guest}: ${m.preference}`)
-    .join('<br>')
+  const mealRows = mealPreferences
+    .map(
+      (m) =>
+        `<tr><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #3D1F1F;">Guest ${m.guest}</td><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #8B6F5E; text-align: right; text-transform: capitalize;">${m.preference}</td></tr>`
+    )
+    .join('')
 
-  const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(EVENT.title)}&dates=${EVENT.calendarStart}/${EVENT.calendarEnd}&location=${encodeURIComponent(EVENT.venue + ', ' + EVENT.address)}&details=${encodeURIComponent('Join us to celebrate Sethu turning 60!')}`
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your RSVP is confirmed</title>
+</head>
+<body style="margin: 0; padding: 0; background: #FFF8ED; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;">
+  <div style="max-width: 560px; margin: 0 auto; padding: 32px 16px;">
 
-  return `
-    <div style="font-family: 'Georgia', serif; max-width: 560px; margin: 0 auto; color: #2D1F1F;">
-      <div style="text-align: center; padding: 40px 24px 32px; background: #6B1D2A; border-radius: 16px 16px 0 0;">
-        <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.15); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-          <span style="color: #fff; font-size: 20px; font-weight: 700;">60</span>
-        </div>
-        <h1 style="color: #fff; font-size: 24px; margin: 0 0 4px; font-weight: 600;">You're confirmed!</h1>
-        <p style="color: rgba(255,255,255,0.7); font-size: 14px; margin: 0;">Thank you for your RSVP, ${firstName}.</p>
+    <!-- Hero -->
+    <div style="background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%); border-radius: 20px 20px 0 0; padding: 44px 32px 36px; text-align: center; position: relative;">
+      <div style="width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, #FBBF24, #F59E0B); margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center; line-height: 68px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+        <span style="font-family: 'Georgia', serif; color: #7F1D1D; font-size: 26px; font-weight: 700; letter-spacing: -1px; display: inline-block; line-height: 68px;">60</span>
       </div>
-      <div style="padding: 32px 24px; background: #FDF8F4; border: 1px solid rgba(107,29,42,0.12); border-top: none;">
-        <h2 style="font-size: 18px; color: #6B1D2A; margin: 0 0 20px;">Event Details</h2>
-        <table style="width: 100%; font-family: -apple-system, sans-serif; font-size: 14px; color: #2D1F1F;">
-          <tr><td style="padding: 8px 0; color: #9A8F8F; width: 90px;">Date</td><td style="padding: 8px 0; font-weight: 500;">${EVENT.date}</td></tr>
-          <tr><td style="padding: 8px 0; color: #9A8F8F;">Time</td><td style="padding: 8px 0; font-weight: 500;">${EVENT.time}</td></tr>
-          <tr><td style="padding: 8px 0; color: #9A8F8F;">Venue</td><td style="padding: 8px 0; font-weight: 500;">${EVENT.venue}<br><span style="font-weight: 400; color: #6B5E5E;">${EVENT.address}</span></td></tr>
-          <tr><td style="padding: 8px 0; color: #9A8F8F;">Guests</td><td style="padding: 8px 0; font-weight: 500;">${guestCount}</td></tr>
-        </table>
-        <div style="margin-top: 16px; padding: 16px; background: #fff; border-radius: 12px; border: 1px solid rgba(107,29,42,0.08);">
-          <p style="font-family: -apple-system, sans-serif; font-size: 12px; color: #9A8F8F; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 1px;">Meal Preferences</p>
-          <p style="font-family: -apple-system, sans-serif; font-size: 14px; margin: 0; line-height: 1.8;">${mealSummary}</p>
-        </div>
-        <div style="text-align: center; margin-top: 28px;">
-          <a href="${googleCalUrl}" target="_blank" style="display: inline-block; background: #6B1D2A; color: #fff; padding: 14px 28px; border-radius: 100px; font-family: -apple-system, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none;">Add to Google Calendar</a>
-        </div>
-      </div>
-      <div style="text-align: center; padding: 20px; font-family: -apple-system, sans-serif; font-size: 12px; color: #9A8F8F; border-radius: 0 0 16px 16px; background: #F5EDE5;">
-        With love from the family &middot; Omaha, Nebraska
-      </div>
+      <h1 style="color: #ffffff; font-family: 'Georgia', serif; font-size: 30px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.5px;">You're all set, ${firstName}!</h1>
+      <p style="color: rgba(255,255,255,0.85); font-size: 15px; margin: 0; line-height: 1.5;">Your RSVP has been received. We can't wait to celebrate with you.</p>
     </div>
-  `
+
+    <!-- Body -->
+    <div style="background: #ffffff; padding: 32px; border-left: 1px solid #F3E6D5; border-right: 1px solid #F3E6D5;">
+
+      <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #DC2626; margin: 0 0 12px;">Event Details</p>
+
+      <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+        <tr>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; width: 80px;">Date</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500;">${EVENT.date}</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5;">Time</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5;">${EVENT.time}</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5; vertical-align: top;">Venue</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5; line-height: 1.4;">
+            ${EVENT.venue}<br>
+            <span style="font-family: -apple-system, sans-serif; font-size: 14px; color: #8B6F5E; font-weight: 400;">${EVENT.address}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5;">Guests</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5;">${guestCount}</td>
+        </tr>
+      </table>
+
+      <div style="background: #FFF8ED; border-radius: 14px; padding: 18px 20px;">
+        <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8B6F5E; margin: 0 0 10px;">Meal Preferences</p>
+        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+          ${mealRows}
+        </table>
+      </div>
+
+      <p style="font-size: 14px; color: #5C4A52; line-height: 1.6; margin: 28px 0 0;">
+        We'll send any updates to this email address closer to the day. If anything changes, just reply to this email and let us know.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div style="background: #FEF2E8; border-radius: 0 0 20px 20px; border: 1px solid #F3E6D5; border-top: none; padding: 24px 32px; text-align: center;">
+      <p style="font-family: 'Georgia', serif; font-style: italic; font-size: 15px; color: #991B1B; margin: 0 0 4px;">With love from the family</p>
+      <p style="font-size: 12px; color: #8B6F5E; margin: 0; letter-spacing: 0.5px;">Omaha, Nebraska</p>
+    </div>
+
+  </div>
+</body>
+</html>`
+}
+
+function buildGuestEmailText(firstName, guestCount, mealPreferences) {
+  const mealLines = mealPreferences
+    .map((m) => `  Guest ${m.guest}: ${m.preference}`)
+    .join('\n')
+
+  return `You're all set, ${firstName}!
+
+Your RSVP for Sethu's 60th Birthday has been received.
+We can't wait to celebrate with you.
+
+EVENT DETAILS
+  Date:   ${EVENT.date}
+  Time:   ${EVENT.time}
+  Venue:  ${EVENT.venue}
+          ${EVENT.address}
+  Guests: ${guestCount}
+
+MEAL PREFERENCES
+${mealLines}
+
+We'll send any updates to this email address closer to the day.
+If anything changes, just reply to this email and let us know.
+
+With love from the family
+Omaha, Nebraska
+`
 }
 
 export default async function handler(req, res) {
@@ -107,13 +173,21 @@ export default async function handler(req, res) {
 
       if (resend) {
         const fromAddress = process.env.EMAIL_FROM || 'Sethu at 60 <onboarding@resend.dev>'
+        const replyTo = process.env.REPLY_TO || process.env.EMAIL_FROM
 
         await resend.emails.send({
           from: fromAddress,
           to: [em],
-          subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
+          reply_to: replyTo,
+          subject: `${fn}, your RSVP is confirmed`,
           html: buildGuestEmail(fn, guests, mealPreferences),
-        }).catch(() => {})
+          text: buildGuestEmailText(fn, guests, mealPreferences),
+          headers: {
+            'X-Entity-Ref-ID': `rsvp-${Date.now()}`,
+          },
+        }).catch((err) => {
+          console.error('Resend error:', err)
+        })
       }
 
       return res.status(200).json({ success: true, message: 'RSVP received!' })

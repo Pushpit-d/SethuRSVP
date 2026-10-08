@@ -428,16 +428,16 @@ export default function MainPage() {
             </div>
             <h2 className="success-title">You're in!</h2>
             <p className="success-body">
-              Your RSVP has landed. A confirmation email is on its way.
-              We cannot wait to celebrate with you.
+              Your RSVP has been submitted. A confirmation email is on its way.
+              We can't wait to celebrate with you on November 26, 2026.
             </p>
-            <div className="calendar-row">
-              <p className="calendar-label">Add to your calendar</p>
-              <div className="cal-btns">
-                <a href={getGoogleCalUrl()} target="_blank" rel="noopener noreferrer" className="cal-btn">Google</a>
-                <button type="button" onClick={downloadIcs} className="cal-btn">Apple</button>
-                <a href={getOutlookUrl()} target="_blank" rel="noopener noreferrer" className="cal-btn">Outlook</a>
-              </div>
+            <div className="success-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span>If you don't see our email, please check your spam or promotions folder.</span>
             </div>
           </div>
         ) : (
