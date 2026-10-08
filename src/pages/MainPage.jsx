@@ -417,7 +417,7 @@ export default function MainPage() {
                 </div>
                 {d.link && (
                   <a
-                    href="https://maps.google.com/?q=Jewish+Community+Center+Omaha+Nebraska"
+                    href="https://maps.app.goo.gl/USaBXxAK7aGaHS8p6"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="detail-link"
