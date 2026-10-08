@@ -446,16 +446,17 @@ export default function MainPage() {
             </div>
             <h2 className="success-title">You're in!</h2>
             <p className="success-body">
-              Your RSVP has been submitted. A confirmation email is on its way.
-              We can't wait to celebrate with you on November 26, 2026.
+              Your RSVP has been received. We can't wait to celebrate with you on November 26, 2026.
             </p>
             <div className="success-note">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="16" x2="12" y2="12" />
-                <line x1="12" y1="8" x2="12.01" y2="8" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
               </svg>
-              <span>If you don't see our email, please check your spam or promotions folder.</span>
+              <span>
+                A confirmation email has been sent to your inbox. If you don't see it,
+                please check your <strong>spam</strong> or <strong>promotions</strong> folder.
+              </span>
             </div>
           </div>
         ) : (
