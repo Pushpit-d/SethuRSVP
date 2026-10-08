@@ -1178,7 +1178,8 @@
   object-position: center 20%;
   display: block;
   opacity: 0;
-  transform: scale(1.08);
+  transform: scale(1.05);
+  transform-origin: center 60%;
   transition: opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1),
               transform 6s linear;
   user-select: none;

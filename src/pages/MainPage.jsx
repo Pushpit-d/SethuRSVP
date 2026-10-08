@@ -101,11 +101,13 @@ function Reveal({ children, className = '', delay = 0 }) {
   )
 }
 
+// Each slot can override object-position so faces are safe during
+// the Ken Burns zoom. Default is "center 20%" (favor top).
 const HERO_PHOTOS = [
-  '/Sethu60-1.webp',
-  '/Sethu60-2.webp',
-  '/Sethu60-3.webp',
-  '/Sethu60-4.webp',
+  { src: '/Sethu60-1.webp' },
+  { src: '/Sethu60-2.webp' },
+  { src: '/Sethu60-3.webp', position: 'center 42%' },
+  { src: '/Sethu60-4.webp' },
 ]
 const PHOTO_INTERVAL_MS = 4200
 const RESUME_AFTER_MS = 6000
@@ -175,12 +177,13 @@ function HeroPhotos() {
     >
       <div className="hero-photo-ring" />
       <div className="hero-photo-frame">
-        {HERO_PHOTOS.map((src, i) => (
+        {HERO_PHOTOS.map((p, i) => (
           <img
-            key={src + i}
-            src={src}
+            key={p.src + i}
+            src={p.src}
             alt={`Sethu ${i + 1}`}
             className={`hero-photo ${i === idx ? 'is-active' : ''}`}
+            style={p.position ? { objectPosition: p.position } : undefined}
             loading={i === 0 ? 'eager' : 'lazy'}
             draggable="false"
           />
