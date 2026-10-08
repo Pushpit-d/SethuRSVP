@@ -72,13 +72,37 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, message: 'RSVP received!' })
       }
 
-      if (!firstName || !lastName || !email) {
+      // Trim and validate required fields
+      const fn = (firstName || '').trim()
+      const ln = (lastName || '').trim()
+      const em = (email || '').trim().toLowerCase()
+      if (!fn || !ln || !em) {
         return res.status(400).json({ error: 'First name, last name, and email are required.' })
       }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+        return res.status(400).json({ error: 'Please enter a valid email address.' })
+      }
+
+      // Phone validation: optional, but if provided must be +1 followed by 10 digits
+      let phoneClean = null
+      if (phone && phone.trim() !== '') {
+        const digitsOnly = phone.replace(/\D/g, '')
+        // Accept either 10 digits (national) or 11 digits starting with 1 (country code)
+        const digits = digitsOnly.length === 11 && digitsOnly.startsWith('1')
+          ? digitsOnly.slice(1)
+          : digitsOnly
+        if (digits.length !== 10) {
+          return res.status(400).json({ error: 'Phone number must be 10 digits.' })
+        }
+        phoneClean = `+1${digits}`
+      }
+
+      // Guest count sanity
+      const guests = Math.max(1, Math.min(10, parseInt(guestCount, 10) || 1))
 
       await sql`
         INSERT INTO rsvps (first_name, last_name, email, phone, guest_count, meal_preferences, submitted_at)
-        VALUES (${firstName}, ${lastName}, ${email}, ${phone || null}, ${guestCount}, ${JSON.stringify(mealPreferences)}, NOW())
+        VALUES (${fn}, ${ln}, ${em}, ${phoneClean}, ${guests}, ${JSON.stringify(mealPreferences)}, NOW())
       `
 
       if (resend) {
@@ -86,9 +110,9 @@ export default async function handler(req, res) {
 
         await resend.emails.send({
           from: fromAddress,
-          to: [email],
+          to: [em],
           subject: "You're confirmed! Sethu's 60th Birthday - Nov 26, 2026",
-          html: buildGuestEmail(firstName, guestCount, mealPreferences),
+          html: buildGuestEmail(fn, guests, mealPreferences),
         }).catch(() => {})
       }
 

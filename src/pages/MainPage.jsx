@@ -190,6 +190,29 @@ export default function MainPage() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [phoneDigits, setPhoneDigits] = useState('')
+  const [phoneError, setPhoneError] = useState('')
+
+  function formatPhone(digits) {
+    const d = digits.slice(0, 10)
+    if (d.length === 0) return ''
+    if (d.length <= 3) return `(${d}`
+    if (d.length <= 6) return `(${d.slice(0, 3)}) ${d.slice(3)}`
+    return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`
+  }
+
+  function handlePhoneChange(e) {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 10)
+    setPhoneDigits(digits)
+    if (phoneError) setPhoneError('')
+  }
+
+  function handlePhoneKeyDown(e) {
+    const allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End']
+    if (allowed.includes(e.key)) return
+    if (e.metaKey || e.ctrlKey) return
+    if (!/^[0-9]$/.test(e.key)) e.preventDefault()
+  }
 
   function handleGuestChange(e) {
     const count = parseInt(e.target.value, 10)
@@ -207,13 +230,22 @@ export default function MainPage() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setSubmitting(true)
     setError('')
+    setPhoneError('')
+
+    // Phone is optional, but if provided must be exactly 10 digits
+    if (phoneDigits.length > 0 && phoneDigits.length !== 10) {
+      setPhoneError('Please enter a 10-digit phone number.')
+      return
+    }
+
+    setSubmitting(true)
     const formData = new FormData(e.target)
     const mealPreferences = Array.from({ length: guestCount }, (_, i) => ({
       guest: i + 1,
       preference: mealPrefs[i],
     }))
+    const phoneValue = phoneDigits.length === 10 ? `+1${phoneDigits}` : ''
     try {
       const res = await fetch('/api/rsvp', {
         method: 'POST',
@@ -222,7 +254,7 @@ export default function MainPage() {
           firstName: formData.get('firstName'),
           lastName: formData.get('lastName'),
           email: formData.get('email'),
-          phone: formData.get('phone'),
+          phone: phoneValue,
           guestCount,
           mealPreferences,
           website: formData.get('website') || '',
@@ -454,7 +486,22 @@ export default function MainPage() {
 
                 <div className="field">
                   <label htmlFor="phone">Phone <span className="opt">optional</span></label>
-                  <input type="tel" id="phone" name="phone" placeholder="(402) 555-0123" />
+                  <div className={`phone-input ${phoneError ? 'has-error' : ''}`}>
+                    <span className="phone-prefix">+1</span>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      inputMode="numeric"
+                      autoComplete="tel-national"
+                      maxLength="14"
+                      placeholder="(402) 555-0123"
+                      value={formatPhone(phoneDigits)}
+                      onChange={handlePhoneChange}
+                      onKeyDown={handlePhoneKeyDown}
+                    />
+                  </div>
+                  {phoneError && <p className="field-error">{phoneError}</p>}
                 </div>
 
                 <div className="field">
