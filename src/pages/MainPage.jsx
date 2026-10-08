@@ -95,6 +95,69 @@ function Reveal({ children, className = '', delay = 0 }) {
   )
 }
 
+function Chapters({ items }) {
+  const containerRef = useRef(null)
+  const [activeIdx, setActiveIdx] = useState(-1)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const chapterEls = container.querySelectorAll('.chapter')
+
+    function update() {
+      const rect = container.getBoundingClientRect()
+      const triggerY = window.innerHeight * 0.55
+
+      // Progress: 0% when top enters trigger line, 100% when bottom passes it
+      const total = rect.height
+      const traveled = triggerY - rect.top
+      const pct = Math.max(0, Math.min(100, (traveled / total) * 100))
+      setProgress(pct)
+
+      // Active index: last chapter whose center has crossed the trigger
+      let idx = -1
+      chapterEls.forEach((el, i) => {
+        const r = el.getBoundingClientRect()
+        if (r.top + r.height / 2 <= triggerY) idx = i
+      })
+      setActiveIdx(idx)
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  return (
+    <div
+      className="chapters"
+      ref={containerRef}
+      style={{ '--progress': `${progress}%` }}
+    >
+      <span className="chapters-track" />
+      <span className="chapters-fill" />
+      {items.map((c, i) => (
+        <div
+          key={i}
+          className={`chapter ${i <= activeIdx ? 'is-active' : ''} ${c.highlight ? 'chapter-hl' : ''}`}
+        >
+          <div className="chapter-year">{c.year}</div>
+          <div className="chapter-connector">
+            <span className="chapter-dot" />
+          </div>
+          <div className="chapter-text">{c.text}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function useCountdown(target) {
   const calc = () => {
     const diff = Math.max(0, target.getTime() - Date.now())
@@ -268,19 +331,7 @@ export default function MainPage() {
           </div>
         </Reveal>
 
-        <div className="chapters">
-          {chapters.map((c, i) => (
-            <Reveal key={i} delay={i * 80}>
-              <div className={`chapter ${c.highlight ? 'chapter-hl' : ''}`}>
-                <div className="chapter-year">{c.year}</div>
-                <div className="chapter-connector">
-                  <span className="chapter-dot" />
-                </div>
-                <div className="chapter-text">{c.text}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Chapters items={chapters} />
       </section>
 
       {/* ─── DETAILS ─── */}

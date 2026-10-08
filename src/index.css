@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   /* Red-forward celebration palette (Sethu wears a lot of red) */
@@ -42,7 +42,8 @@
   --shadow-warm: 0 8px 32px rgba(239, 68, 68, 0.3);
   --shadow-red: 0 10px 30px rgba(220, 38, 38, 0.35);
 
-  --font-display: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --font-display: 'Instrument Serif', 'Fraunces', Georgia, serif;
+  --font-script: 'Fraunces', 'Instrument Serif', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   font-synthesis: none;
