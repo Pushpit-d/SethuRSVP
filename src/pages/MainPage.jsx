@@ -106,8 +106,8 @@ const HERO_PHOTOS = [
   '/Sethu60-2.webp',
   '/Sethu60-3.webp',
 ]
-const PHOTO_INTERVAL_MS = 1800
-const RESUME_AFTER_MS = 5000
+const PHOTO_INTERVAL_MS = 4200
+const RESUME_AFTER_MS = 6000
 
 function HeroPhotos() {
   const [idx, setIdx] = useState(0)
