@@ -114,7 +114,8 @@ function Chapters({ items }) {
       const total = rect.height
       const traveled = triggerY - rect.top
       const pct = Math.max(0, Math.min(100, (traveled / total) * 100))
-      setProgress(pct)
+      // Only grow — never shrink when the user scrolls back up
+      setProgress((prev) => Math.max(prev, pct))
 
       // Active index: last chapter whose center has crossed the trigger
       let idx = -1
@@ -122,7 +123,8 @@ function Chapters({ items }) {
         const r = el.getBoundingClientRect()
         if (r.top + r.height / 2 <= triggerY) idx = i
       })
-      setActiveIdx(idx)
+      // Latch: once a chapter has lit up, it stays lit
+      setActiveIdx((prev) => Math.max(prev, idx))
     }
 
     update()
