@@ -23,6 +23,11 @@ const RSVP_SCATTER = [
   { shape: 'rect', bottom: '12%', left: '5%', rot: 20, delay: 0.6 },
 ]
 
+// Event is pinned to Omaha, Nebraska (America/Chicago).
+// Use ISO Z form so the moment-in-time is unambiguous regardless of
+// where the user is viewing from. Nov 26, 2026 is in CST (UTC-6).
+const EVENT_TZ = 'America/Chicago'
+const EVENT_TZ_SHORT = 'CST'
 const EVENT = {
   title: "Sethu's 60th Birthday Celebration",
   date: 'Thursday, November 26, 2026',
@@ -31,7 +36,8 @@ const EVENT = {
   start: '20261126T160000Z',
   end: '20261126T190000Z',
   description: 'Join us to celebrate Sethu turning 60!',
-  targetDate: new Date('2026-11-26T10:00:00-06:00'),
+  // 2026-11-26 10:00 AM Omaha time (CST, UTC-6) → 16:00 UTC
+  targetDate: new Date(Date.UTC(2026, 10, 26, 16, 0, 0)),
 }
 
 function getGoogleCalUrl() {
@@ -161,16 +167,22 @@ function Chapters({ items }) {
 }
 
 function useCountdown(target) {
+  // Returns time remaining until a fixed point in time.
+  // Because target.getTime() is a UTC millisecond and Date.now() is also UTC,
+  // the result is identical for every viewer regardless of their timezone —
+  // the countdown reflects "how long until the event happens in Omaha" even
+  // if the viewer is in a different time zone.
   const calc = () => {
     const diff = Math.max(0, target.getTime() - Date.now())
     const days = Math.floor(diff / 86400000)
     const hours = Math.floor((diff % 86400000) / 3600000)
     const minutes = Math.floor((diff % 3600000) / 60000)
-    return { days, hours, minutes }
+    const seconds = Math.floor((diff % 60000) / 1000)
+    return { days, hours, minutes, seconds, diff }
   }
   const [time, setTime] = useState(calc)
   useEffect(() => {
-    const id = setInterval(() => setTime(calc()), 60000)
+    const id = setInterval(() => setTime(calc()), 1000)
     return () => clearInterval(id)
   }, [])
   return time
@@ -308,15 +320,21 @@ export default function MainPage() {
             </div>
             <div className="count-divider" />
             <div className="count-item">
-              <span className="count-num">{countdown.hours}</span>
+              <span className="count-num">{String(countdown.hours).padStart(2, '0')}</span>
               <span className="count-label">hrs</span>
             </div>
             <div className="count-divider" />
             <div className="count-item">
-              <span className="count-num">{countdown.minutes}</span>
+              <span className="count-num">{String(countdown.minutes).padStart(2, '0')}</span>
               <span className="count-label">min</span>
             </div>
+            <div className="count-divider" />
+            <div className="count-item">
+              <span className="count-num">{String(countdown.seconds).padStart(2, '0')}</span>
+              <span className="count-label">sec</span>
+            </div>
           </div>
+          <p className="countdown-tz">All times {EVENT_TZ_SHORT} (Omaha, Nebraska)</p>
 
           <div className="hero-actions">
             <button className="btn-primary" onClick={() => document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' })}>

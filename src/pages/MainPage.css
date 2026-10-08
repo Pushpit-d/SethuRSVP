@@ -260,18 +260,29 @@
 .countdown {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 10px 16px;
+  gap: 2px;
+  padding: 10px 14px;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-radius: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   box-shadow: var(--shadow-sm);
   animation: countdown-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 0.7s;
   transition: all 0.3s ease;
+}
+
+.countdown-tz {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+  animation: countdown-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.8s;
 }
 
 .countdown:hover {
@@ -289,12 +300,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 54px;
+  min-width: 44px;
 }
 
 .count-num {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
   color: var(--ink);
   line-height: 1;
