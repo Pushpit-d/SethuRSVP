@@ -1,38 +1,52 @@
-import { NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './Navbar.css'
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  function scrollTo(id) {
+    setOpen(false)
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <nav className="navbar">
-      <div className="navbar-inner">
-        <NavLink to="/" className="navbar-brand">
-          <div className="brand-badge">
-            <svg className="brand-rings" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle className="ring-outer" cx="26" cy="26" r="24" stroke="#C4956A" strokeWidth="1.5" />
-              <circle className="ring-glow" cx="26" cy="26" r="24" stroke="#C4956A" strokeWidth="1.5" />
-              <circle className="ring-inner" cx="26" cy="26" r="20" stroke="#C4956A" strokeWidth="0.5" strokeDasharray="3 4" />
-            </svg>
-            <div className="brand-circle">
-              <span className="brand-number">60</span>
-            </div>
-            <div className="brand-sparkles">
-              <span className="sparkle s1" />
-              <span className="sparkle s2" />
-              <span className="sparkle s3" />
-              <span className="sparkle s4" />
-            </div>
+    <>
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <div className="navbar-inner">
+          <button className="navbar-brand" onClick={() => scrollTo('hero')}>
+            <span className="brand-mark">60</span>
+            <span className="brand-text">Sethu</span>
+          </button>
+
+          <div className="navbar-links">
+            <button onClick={() => scrollTo('about')}>About</button>
+            <button onClick={() => scrollTo('details')}>Details</button>
+            <button onClick={() => scrollTo('rsvp')} className="nav-cta">RSVP</button>
           </div>
-          <div className="brand-label">
-            <span className="brand-name">Sethu</span>
-            <span className="brand-sub">turning sixty</span>
-          </div>
-        </NavLink>
-        <div className="navbar-links">
-          <NavLink to="/" end>Home</NavLink>
-          <NavLink to="/party">Party Details</NavLink>
-          <NavLink to="/rsvp" className="nav-rsvp">RSVP</NavLink>
+
+          <button
+            className={`menu-btn ${open ? 'open' : ''}`}
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+          >
+            <span /><span /><span />
+          </button>
         </div>
+      </nav>
+
+      <div className={`mobile-menu ${open ? 'open' : ''}`}>
+        <button onClick={() => scrollTo('about')}>About</button>
+        <button onClick={() => scrollTo('details')}>Details</button>
+        <button onClick={() => scrollTo('rsvp')} className="mobile-cta">RSVP Now</button>
       </div>
-    </nav>
+    </>
   )
 }
