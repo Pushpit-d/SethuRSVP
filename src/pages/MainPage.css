@@ -709,14 +709,15 @@
 }
 
 .detail-value {
-  font-family: var(--font-script);
-  font-size: 22px;
-  font-weight: 500;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
   color: var(--ink);
-  line-height: 1.3;
+  line-height: 1.2;
   margin-bottom: 4px;
-  letter-spacing: -0.3px;
-  font-variation-settings: "opsz" 24, "SOFT" 100;
+  letter-spacing: 0;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .detail-sub {
