@@ -3,6 +3,56 @@ import { Resend } from 'resend'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
+// In-memory rate limit for admin auth failures (per IP).
+// Serverless warm invocations share this; cold starts reset — good enough
+// to make bulk brute-force impractical.
+const adminFailures = new Map()
+const FAIL_WINDOW_MS = 15 * 60 * 1000 // 15 min
+const MAX_FAILS = 5
+
+function getClientIp(req) {
+  const fwd = req.headers['x-forwarded-for']
+  if (fwd) return String(fwd).split(',')[0].trim()
+  return req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown'
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function checkAdminAuth(req) {
+  const now = Date.now()
+  const ip = getClientIp(req)
+  const rec = adminFailures.get(ip)
+  if (rec && rec.until > now) {
+    return { ok: false, lockedUntil: rec.until }
+  }
+
+  const authHeader = req.headers.authorization
+  const expected = process.env.ADMIN_SECRET
+  if (!expected) return { ok: false, serverMisconfigured: true }
+  if (authHeader === `Bearer ${expected}`) {
+    // Reset on success
+    adminFailures.delete(ip)
+    return { ok: true }
+  }
+
+  // Fail: increment and apply increasing delay
+  const prev = rec && rec.windowStart > now - FAIL_WINDOW_MS ? rec : { count: 0, windowStart: now }
+  const count = prev.count + 1
+  const next = { count, windowStart: prev.windowStart }
+  if (count >= MAX_FAILS) {
+    next.until = now + FAIL_WINDOW_MS
+  }
+  adminFailures.set(ip, next)
+
+  // Progressive delay: 0.5s, 1s, 2s, 4s... capped at 5s
+  const delay = Math.min(5000, 500 * Math.pow(2, Math.max(0, count - 1)))
+  await sleep(delay)
+
+  return { ok: false, locked: !!next.until, lockedUntil: next.until }
+}
+
 const EVENT = {
   title: "Sethu's 60th Birthday Celebration",
   date: 'Thursday, November 26, 2026',
@@ -201,8 +251,11 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const authHeader = req.headers.authorization
-    if (authHeader !== `Bearer ${process.env.ADMIN_SECRET}`) {
+    const auth = await checkAdminAuth(req)
+    if (!auth.ok) {
+      if (auth.locked || auth.lockedUntil) {
+        return res.status(429).json({ error: 'Too many attempts. Try again in a few minutes.' })
+      }
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
@@ -233,8 +286,11 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
-    const authHeader = req.headers.authorization
-    if (authHeader !== `Bearer ${process.env.ADMIN_SECRET}`) {
+    const auth = await checkAdminAuth(req)
+    if (!auth.ok) {
+      if (auth.locked || auth.lockedUntil) {
+        return res.status(429).json({ error: 'Too many attempts. Try again in a few minutes.' })
+      }
       return res.status(401).json({ error: 'Unauthorized' })
     }
 

@@ -22,7 +22,12 @@ export default function Admin() {
       })
 
       if (!res.ok) {
-        setError('Invalid password.')
+        if (res.status === 429) {
+          const body = await res.json().catch(() => ({}))
+          setError(body.error || 'Too many attempts. Try again later.')
+        } else {
+          setError('Invalid password.')
+        }
         setLoading(false)
         return
       }
