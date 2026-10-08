@@ -101,6 +101,112 @@ function Reveal({ children, className = '', delay = 0 }) {
   )
 }
 
+const HERO_PHOTOS = [
+  '/Sethu60-1.webp',
+  '/Sethu60-2.webp',
+  '/Sethu60-3.webp',
+]
+const PHOTO_INTERVAL_MS = 1800
+const RESUME_AFTER_MS = 5000
+
+function HeroPhotos() {
+  const [idx, setIdx] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const touchStart = useRef(null)
+  const resumeTimer = useRef(null)
+
+  useEffect(() => {
+    if (paused || HERO_PHOTOS.length <= 1) return
+    const id = setInterval(() => {
+      setIdx((i) => (i + 1) % HERO_PHOTOS.length)
+    }, PHOTO_INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [paused])
+
+  // Clean up any pending resume timer on unmount
+  useEffect(() => () => clearTimeout(resumeTimer.current), [])
+
+  function pauseThenResume(delay = RESUME_AFTER_MS) {
+    setPaused(true)
+    clearTimeout(resumeTimer.current)
+    resumeTimer.current = setTimeout(() => setPaused(false), delay)
+  }
+
+  function handleEnter() {
+    clearTimeout(resumeTimer.current)
+    setPaused(true)
+  }
+  function handleLeave() {
+    setPaused(false)
+  }
+
+  function handleTouchStart(e) {
+    touchStart.current = e.touches[0].clientX
+    handleEnter()
+  }
+  function handleTouchEnd(e) {
+    if (touchStart.current == null) {
+      pauseThenResume()
+      return
+    }
+    const diff = touchStart.current - e.changedTouches[0].clientX
+    touchStart.current = null
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) setIdx((i) => (i + 1) % HERO_PHOTOS.length)
+      else setIdx((i) => (i - 1 + HERO_PHOTOS.length) % HERO_PHOTOS.length)
+    }
+    pauseThenResume()
+  }
+
+  function goTo(i, e) {
+    e?.stopPropagation()
+    setIdx(i)
+    pauseThenResume()
+  }
+
+  return (
+    <div
+      className="hero-photo-wrap"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="hero-photo-ring" />
+      <div className="hero-photo-frame">
+        {HERO_PHOTOS.map((src, i) => (
+          <img
+            key={src + i}
+            src={src}
+            alt={`Sethu ${i + 1}`}
+            className={`hero-photo ${i === idx ? 'is-active' : ''}`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            draggable="false"
+          />
+        ))}
+      </div>
+      <div className="hero-photo-badge">
+        <span className="hpb-num">60</span>
+        <span className="hpb-text">years</span>
+      </div>
+      {HERO_PHOTOS.length > 1 && (
+        <div className="hero-dots" role="tablist" aria-label="Photos">
+          {HERO_PHOTOS.map((_, i) => (
+            <button
+              key={i}
+              className={`hero-dot ${i === idx ? 'is-active' : ''}`}
+              onClick={(e) => goTo(i, e)}
+              aria-label={`Show photo ${i + 1}`}
+              aria-selected={i === idx}
+              role="tab"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function Chapters({ items }) {
   const containerRef = useRef(null)
   const [activeIdx, setActiveIdx] = useState(-1)
@@ -356,16 +462,7 @@ export default function MainPage() {
           </svg>
         </div>
 
-        <div className="hero-photo-wrap">
-          <div className="hero-photo-ring" />
-          <div className="hero-photo-frame">
-            <img src="/Sethu60.webp" alt="Sethu" className="hero-photo" />
-          </div>
-          <div className="hero-photo-badge">
-            <span className="hpb-num">60</span>
-            <span className="hpb-text">years</span>
-          </div>
-        </div>
+        <HeroPhotos />
       </section>
 
       {/* ─── ABOUT / JOURNEY ─── */}
