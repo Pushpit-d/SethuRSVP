@@ -7,6 +7,9 @@ export default function Admin() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [data, setData] = useState(null)
+  const [confirmDelete, setConfirmDelete] = useState(null) // the rsvp row to delete
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -45,6 +48,57 @@ export default function Admin() {
       /* silent */
     }
     setLoading(false)
+  }
+
+  async function handleDelete() {
+    if (!confirmDelete) return
+    setDeleting(true)
+    setDeleteError('')
+    try {
+      const res = await fetch(`/api/rsvp?id=${confirmDelete.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${secret}` },
+      })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        setDeleteError(body.error || 'Failed to delete.')
+        setDeleting(false)
+        return
+      }
+      // Remove from local state
+      setData((prev) => {
+        if (!prev) return prev
+        const remaining = prev.rsvps.filter((r) => r.id !== confirmDelete.id)
+        const totalGuests = remaining.reduce((sum, r) => sum + r.guest_count, 0)
+        const totalVeg = remaining.reduce(
+          (sum, r) => sum + (r.meal_preferences || []).filter((m) => m.preference === 'vegetarian').length,
+          0
+        )
+        const totalNonVeg = remaining.reduce(
+          (sum, r) => sum + (r.meal_preferences || []).filter((m) => m.preference === 'non-vegetarian').length,
+          0
+        )
+        return {
+          rsvps: remaining,
+          summary: {
+            totalRsvps: remaining.length,
+            totalGuests,
+            totalVeg,
+            totalNonVeg,
+          },
+        }
+      })
+      setConfirmDelete(null)
+    } catch {
+      setDeleteError('Unable to connect. Please try again.')
+    }
+    setDeleting(false)
+  }
+
+  function cancelDelete() {
+    if (deleting) return
+    setConfirmDelete(null)
+    setDeleteError('')
   }
 
   if (!authed) {
@@ -127,6 +181,7 @@ export default function Admin() {
                   <th>Guests</th>
                   <th>Meals</th>
                   <th>Date</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -151,6 +206,20 @@ export default function Admin() {
                         minute: '2-digit',
                       })}
                     </td>
+                    <td className="td-actions">
+                      <button
+                        className="delete-btn"
+                        onClick={() => setConfirmDelete(r)}
+                        aria-label={`Delete RSVP from ${r.first_name} ${r.last_name}`}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                          <path d="M10 11v6M14 11v6" />
+                          <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+                        </svg>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -158,6 +227,45 @@ export default function Admin() {
           </div>
         )}
       </section>
+
+      {confirmDelete && (
+        <div className="modal-overlay" onClick={cancelDelete}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                <path d="M10 11v6M14 11v6" />
+              </svg>
+            </div>
+            <h2>Delete this RSVP?</h2>
+            <p className="modal-body">
+              This will permanently remove the RSVP from <strong>{confirmDelete.first_name} {confirmDelete.last_name}</strong>
+              {' '}({confirmDelete.email}).
+              <br />This action cannot be undone.
+            </p>
+            {deleteError && <p className="modal-error">{deleteError}</p>}
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-cancel"
+                onClick={cancelDelete}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="modal-btn modal-btn-delete"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete RSVP'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
