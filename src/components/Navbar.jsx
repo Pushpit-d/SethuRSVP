@@ -3,45 +3,83 @@ import './Navbar.css'
 
 function BrandMark() {
   return (
-    <svg className="brand-svg" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+    <svg className="brand-svg" viewBox="0 0 52 60" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="markFill" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="medalFill" x1="20%" y1="10%" x2="80%" y2="90%">
+          <stop offset="0%" stopColor="#F87171" />
+          <stop offset="55%" stopColor="#DC2626" />
+          <stop offset="100%" stopColor="#7F1D1D" />
+        </linearGradient>
+        <linearGradient id="ribbonLeft" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#EF4444" />
           <stop offset="100%" stopColor="#991B1B" />
         </linearGradient>
-        <linearGradient id="markShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FBBF24" stopOpacity="0" />
-          <stop offset="50%" stopColor="#FBBF24" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#FBBF24" stopOpacity="0" />
+        <linearGradient id="ribbonRight" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#DC2626" />
+          <stop offset="100%" stopColor="#7F1D1D" />
         </linearGradient>
-        <linearGradient id="markRing" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#FBBF24" />
-          <stop offset="100%" stopColor="#DC2626" />
+          <stop offset="50%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#B45309" />
         </linearGradient>
+        <radialGradient id="shineGlow" cx="35%" cy="30%" r="55%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.5)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </radialGradient>
       </defs>
 
-      {/* Outer orbit ring - very slow rotation */}
-      <circle className="brand-orbit" cx="28" cy="28" r="26" fill="none" stroke="url(#markRing)" strokeWidth="0.8" strokeDasharray="1 4" opacity="0.5" />
+      {/* Left ribbon tail */}
+      <path
+        className="brand-ribbon brand-ribbon-left"
+        d="M14 34 L24 28 L26 40 L24 56 L18 50 L13 54 Z"
+        fill="url(#ribbonLeft)"
+      />
 
-      {/* Main red disc */}
-      <circle cx="28" cy="28" r="22" fill="url(#markFill)" />
+      {/* Right ribbon tail */}
+      <path
+        className="brand-ribbon brand-ribbon-right"
+        d="M38 34 L28 28 L26 40 L28 56 L34 50 L39 54 Z"
+        fill="url(#ribbonRight)"
+      />
 
-      {/* Shimmer sweep (clipped to disc) */}
-      <clipPath id="discClip">
-        <circle cx="28" cy="28" r="22" />
-      </clipPath>
-      <g clipPath="url(#discClip)">
-        <rect className="brand-shimmer" x="-30" y="0" width="30" height="56" fill="url(#markShimmer)" />
-      </g>
+      {/* Outer gold laurel ring */}
+      <circle
+        className="brand-ring"
+        cx="26"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke="url(#goldRing)"
+        strokeWidth="1"
+        strokeDasharray="1.5 3"
+      />
+
+      {/* Medal body */}
+      <circle cx="26" cy="24" r="19" fill="url(#medalFill)" />
 
       {/* Inner highlight ring */}
-      <circle cx="28" cy="28" r="21" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+      <circle cx="26" cy="24" r="17" fill="none" stroke="rgba(251, 191, 36, 0.5)" strokeWidth="0.8" />
 
-      {/* The 60 */}
-      <text x="28" y="35" textAnchor="middle" fontFamily="Fraunces, serif" fontSize="18" fontWeight="700" fill="white" letterSpacing="-0.5">60</text>
+      {/* Shine */}
+      <circle cx="26" cy="24" r="19" fill="url(#shineGlow)" />
 
-      {/* Single orbiting dot */}
-      <circle className="brand-orbit-dot" cx="28" cy="2" r="1.6" fill="#FBBF24" />
+      {/* "60" numeral */}
+      <text
+        x="26"
+        y="30.5"
+        textAnchor="middle"
+        fontFamily="'Fraunces', 'Playfair Display', serif"
+        fontWeight="700"
+        fontSize="18"
+        fill="#FFFFFF"
+        letterSpacing="-0.5"
+      >
+        60
+      </text>
+
+      {/* Orbiting amber spark */}
+      <circle className="brand-spark" cx="26" cy="2" r="1.8" fill="#FBBF24" />
     </svg>
   )
 }

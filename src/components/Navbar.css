@@ -35,53 +35,70 @@
 }
 
 .brand-svg {
-  width: 48px;
-  height: 48px;
-  filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.28));
+  width: 44px;
+  height: 50px;
+  filter: drop-shadow(0 6px 14px rgba(153, 27, 27, 0.3));
   transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
+}
+
+/* Medal gently breathes */
+.brand-svg {
   animation: brand-breathe 5s ease-in-out infinite;
 }
 
 @keyframes brand-breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  50% { transform: scale(1.03); }
 }
 
-/* Slowly rotating dashed orbit */
-.brand-orbit {
-  transform-origin: 28px 28px;
-  animation: brand-spin 24s linear infinite;
+/* Ribbon tails sway independently */
+.brand-ribbon {
+  transform-origin: 26px 30px;
+}
+
+.brand-ribbon-left {
+  animation: ribbon-sway-left 4s ease-in-out infinite;
+}
+
+.brand-ribbon-right {
+  animation: ribbon-sway-right 4s ease-in-out infinite;
+}
+
+@keyframes ribbon-sway-left {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes ribbon-sway-right {
+  0%, 100% { transform: rotate(1deg); }
+  50% { transform: rotate(-2deg); }
+}
+
+/* Dashed gold laurel ring rotates slowly */
+.brand-ring {
+  transform-origin: 26px 24px;
+  animation: brand-spin 20s linear infinite;
 }
 
 @keyframes brand-spin {
   to { transform: rotate(360deg); }
 }
 
-/* Shimmer sweep across the red disc */
-.brand-shimmer {
-  animation: brand-shine 4.5s ease-in-out infinite;
-  transform: skewX(-20deg);
+/* Amber spark orbits the medal */
+.brand-spark {
+  transform-origin: 26px 24px;
+  animation: brand-orbit 7s linear infinite;
+  filter: drop-shadow(0 0 2px #FBBF24);
 }
 
-@keyframes brand-shine {
-  0%, 100% { transform: translateX(0) skewX(-20deg); opacity: 0; }
-  20% { opacity: 1; }
-  60% { transform: translateX(90px) skewX(-20deg); opacity: 0; }
-}
-
-/* Single amber dot orbiting the mark */
-.brand-orbit-dot {
-  transform-origin: 28px 28px;
-  animation: brand-orbit-spin 8s linear infinite;
-}
-
-@keyframes brand-orbit-spin {
+@keyframes brand-orbit {
   to { transform: rotate(360deg); }
 }
 
 .navbar-brand:hover .brand-svg {
-  filter: drop-shadow(0 8px 18px rgba(220, 38, 38, 0.45));
-  transform: scale(1.06);
+  filter: drop-shadow(0 10px 20px rgba(220, 38, 38, 0.5));
+  transform: scale(1.06) rotate(-2deg);
 }
 
 .brand-text {
