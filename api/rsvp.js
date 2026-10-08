@@ -65,7 +65,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { firstName, lastName, email, phone, guestCount, mealPreferences } = req.body
+      const { firstName, lastName, email, phone, guestCount, mealPreferences, website } = req.body
+
+      // Honeypot: if the hidden field is filled, silently drop as a successful "RSVP"
+      if (website && website.trim() !== '') {
+        return res.status(200).json({ success: true, message: 'RSVP received!' })
+      }
 
       if (!firstName || !lastName || !email) {
         return res.status(400).json({ error: 'First name, last name, and email are required.' })

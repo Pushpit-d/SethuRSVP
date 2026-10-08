@@ -160,6 +160,7 @@ export default function MainPage() {
           phone: formData.get('phone'),
           guestCount,
           mealPreferences,
+          website: formData.get('website') || '',
         }),
       })
       const data = await res.json()
@@ -369,7 +370,19 @@ export default function MainPage() {
             </Reveal>
 
             <Reveal delay={100}>
-              <form className="rsvp-form" onSubmit={handleSubmit}>
+              <form className="rsvp-form" onSubmit={handleSubmit} autoComplete="off">
+                {/* Honeypot: hidden from humans, bots will fill it */}
+                <div className="hp-field" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex="-1"
+                    autoComplete="off"
+                  />
+                </div>
+
                 <div className="form-row">
                   <div className="field">
                     <label htmlFor="firstName">First name</label>
