@@ -1,14 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Warm, bright celebration palette */
+  /* Red-forward celebration palette (Sethu wears a lot of red) */
   --ivory: #FFF8ED;
-  --cream: #FFEFD6;
+  --cream: #FFEBD6;
   --sand: #F5DFB8;
 
-  --garnet: #C21E4F;
-  --garnet-deep: #8E1239;
-  --garnet-bright: #E63268;
+  --red: #DC2626;
+  --red-deep: #991B1B;
+  --red-bright: #EF4444;
+  --red-dark: #7F1D1D;
+  --crimson: #B91C1C;
 
   --marigold: #F59E0B;
   --marigold-bright: #FBBF24;
@@ -17,26 +19,28 @@
   --coral: #FB7185;
   --peach: #FDBA74;
 
-  --ink: #1A0F0A;
-  --ink-soft: #3D2A1F;
+  --ink: #1A0808;
+  --ink-soft: #3D1F1F;
   --muted: #8B6F5E;
   --muted-light: #B9A08C;
 
   --white: #FFFFFF;
-  --border: rgba(26, 15, 10, 0.08);
-  --border-strong: rgba(26, 15, 10, 0.14);
+  --border: rgba(26, 8, 8, 0.08);
+  --border-strong: rgba(26, 8, 8, 0.14);
 
-  /* Signature gradients */
-  --sunset: linear-gradient(135deg, #FBBF24 0%, #FB7185 50%, #C21E4F 100%);
-  --sunset-soft: linear-gradient(135deg, #FFEFD6 0%, #FDBA74 50%, #FB7185 100%);
+  /* Signature gradients - red forward */
+  --sunset: linear-gradient(135deg, #FBBF24 0%, #EF4444 45%, #991B1B 100%);
+  --sunset-soft: linear-gradient(135deg, #FFEBD6 0%, #FDBA74 45%, #EF4444 100%);
   --marigold-grad: linear-gradient(135deg, #FBBF24, #F59E0B);
-  --garnet-grad: linear-gradient(135deg, #E63268, #C21E4F);
-  --warm-wash: linear-gradient(180deg, #FFF8ED 0%, #FFEFD6 100%);
+  --red-grad: linear-gradient(135deg, #EF4444, #991B1B);
+  --red-radial: radial-gradient(circle at 30% 30%, #EF4444, #991B1B 80%);
+  --warm-wash: linear-gradient(180deg, #FFF8ED 0%, #FFEBD6 100%);
 
-  --shadow-sm: 0 2px 8px rgba(142, 18, 57, 0.06);
-  --shadow-md: 0 12px 32px rgba(142, 18, 57, 0.08);
-  --shadow-lg: 0 24px 60px rgba(142, 18, 57, 0.12);
-  --shadow-warm: 0 8px 32px rgba(251, 113, 133, 0.25);
+  --shadow-sm: 0 2px 8px rgba(153, 27, 27, 0.06);
+  --shadow-md: 0 12px 32px rgba(153, 27, 27, 0.08);
+  --shadow-lg: 0 24px 60px rgba(153, 27, 27, 0.12);
+  --shadow-warm: 0 8px 32px rgba(239, 68, 68, 0.3);
+  --shadow-red: 0 10px 30px rgba(220, 38, 38, 0.35);
 
   --font-display: 'Fraunces', 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -73,7 +77,7 @@ body {
 }
 
 a {
-  color: var(--garnet);
+  color: var(--red);
   text-decoration: none;
   transition: color 0.2s ease;
 }

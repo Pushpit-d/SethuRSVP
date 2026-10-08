@@ -11,19 +11,20 @@
 }
 
 .footer-mark {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--sunset);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 18px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 20px;
-  box-shadow: var(--shadow-warm);
+  display: block;
+  filter: drop-shadow(0 6px 16px rgba(220, 38, 38, 0.35));
+}
+
+.footer-ring {
+  transform-origin: 28px 28px;
+  animation: footer-rotate 14s linear infinite;
+}
+
+@keyframes footer-rotate {
+  to { transform: rotate(360deg); }
 }
 
 .footer-text {
@@ -34,6 +35,6 @@
 
 .footer-text em {
   font-style: italic;
-  color: var(--garnet);
-  font-weight: 500;
+  color: var(--red);
+  font-weight: 600;
 }

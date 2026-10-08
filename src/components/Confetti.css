@@ -1,0 +1,92 @@
+.confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  display: block;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.3, 0.4, 0.6, 1);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+}
+
+.confetti-rect {
+  border-radius: 1px;
+}
+
+.confetti-strip {
+  border-radius: 1px;
+}
+
+.confetti-circle {
+  border-radius: 50%;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -40px, 0) rotate(var(--rot-start)) scale(var(--scale));
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift), 110vh, 0) rotate(var(--rot-end)) scale(var(--scale));
+    opacity: 0;
+  }
+}
+
+/* Scattered static decoration pieces */
+.confetti-scatter {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scatter-piece {
+  position: absolute;
+  opacity: 0.5;
+  animation: scatter-drift 6s ease-in-out infinite;
+}
+
+.scatter-piece.sp-rect {
+  width: 4px;
+  height: 10px;
+  border-radius: 1px;
+}
+
+.scatter-piece.sp-circle {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.scatter-piece.sp-tri {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+@keyframes scatter-drift {
+  0%, 100% { transform: translateY(0) rotate(var(--sr, 0deg)); }
+  50% { transform: translateY(-10px) rotate(calc(var(--sr, 0deg) + 20deg)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece { display: none; }
+  .scatter-piece { animation: none; }
+}

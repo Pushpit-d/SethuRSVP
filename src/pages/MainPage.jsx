@@ -1,5 +1,27 @@
 import { useState, useEffect, useRef } from 'react'
+import Confetti, { Scatter } from '../components/Confetti'
 import './MainPage.css'
+
+const ABOUT_SCATTER = [
+  { shape: 'rect', top: '8%', left: '6%', rot: 15, delay: 0 },
+  { shape: 'circle', top: '14%', right: '8%', rot: 0, delay: 1 },
+  { shape: 'tri', bottom: '20%', left: '4%', rot: -20, delay: 2 },
+  { shape: 'rect', bottom: '10%', right: '10%', rot: -35, delay: 0.5 },
+]
+
+const DETAILS_SCATTER = [
+  { shape: 'tri', top: '6%', right: '6%', rot: 10, delay: 0 },
+  { shape: 'circle', top: '20%', left: '4%', rot: 0, delay: 1.5 },
+  { shape: 'rect', bottom: '14%', right: '5%', rot: 25, delay: 0.8 },
+  { shape: 'rect', bottom: '28%', left: '7%', rot: -15, delay: 2.2 },
+]
+
+const RSVP_SCATTER = [
+  { shape: 'circle', top: '10%', left: '6%', rot: 0, delay: 0.3 },
+  { shape: 'rect', top: '18%', right: '7%', rot: 30, delay: 1.2 },
+  { shape: 'tri', bottom: '18%', right: '5%', rot: -10, delay: 2 },
+  { shape: 'rect', bottom: '12%', left: '5%', rot: 20, delay: 0.6 },
+]
 
 const EVENT = {
   title: "Sethu's 60th Birthday Celebration",
@@ -161,11 +183,12 @@ export default function MainPage() {
         <div className="hero-blob hero-blob-1" />
         <div className="hero-blob hero-blob-2" />
         <div className="hero-blob hero-blob-3" />
+        <Confetti count={75} />
 
         <div className="hero-content">
           <div className="hero-badge">
             <span className="pulse-dot" />
-            Save the Date
+            You're Invited
           </div>
 
           <h1 className="hero-title">
@@ -216,10 +239,22 @@ export default function MainPage() {
             <path d="M6 1v16m0 0l5-5m-5 5l-5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </div>
+
+        <div className="hero-photo-wrap">
+          <div className="hero-photo-ring" />
+          <div className="hero-photo-frame">
+            <img src="/Sethu60.webp" alt="Sethu" className="hero-photo" />
+          </div>
+          <div className="hero-photo-badge">
+            <span className="hpb-num">60</span>
+            <span className="hpb-text">years</span>
+          </div>
+        </div>
       </section>
 
       {/* ─── ABOUT / JOURNEY ─── */}
       <section id="about" className="section about">
+        <Scatter positions={ABOUT_SCATTER} />
         <Reveal>
           <div className="section-head">
             <span className="section-tag">The Journey</span>
@@ -249,6 +284,7 @@ export default function MainPage() {
 
       {/* ─── DETAILS ─── */}
       <section id="details" className="section details">
+        <Scatter positions={DETAILS_SCATTER} />
         <Reveal>
           <div className="section-head">
             <span className="section-tag">Join Us</span>
@@ -264,7 +300,7 @@ export default function MainPage() {
         <div className="detail-grid">
           {details.map((d, i) => (
             <Reveal key={d.label} delay={i * 70}>
-              <div className={`detail-card ${d.icon === 'calendar' ? 'card-garnet' : ''}`}>
+              <div className={`detail-card ${d.icon === 'calendar' ? 'card-red' : ''}`}>
                 <div className="detail-icon">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     {iconPaths[d.icon]}
@@ -296,6 +332,7 @@ export default function MainPage() {
 
       {/* ─── RSVP ─── */}
       <section id="rsvp" className="section rsvp">
+        <Scatter positions={RSVP_SCATTER} />
         {submitted ? (
           <div className="success">
             <div className="success-sparkle">

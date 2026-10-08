@@ -34,25 +34,54 @@
   padding: 0;
 }
 
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--garnet-grad);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: -0.5px;
-  box-shadow: var(--shadow-warm);
-  transition: transform 0.3s ease;
+.brand-svg {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.28));
+  transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: brand-breathe 5s ease-in-out infinite;
 }
 
-.navbar-brand:hover .brand-mark {
-  transform: scale(1.05) rotate(-5deg);
+@keyframes brand-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* Slowly rotating dashed orbit */
+.brand-orbit {
+  transform-origin: 28px 28px;
+  animation: brand-spin 24s linear infinite;
+}
+
+@keyframes brand-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Shimmer sweep across the red disc */
+.brand-shimmer {
+  animation: brand-shine 4.5s ease-in-out infinite;
+  transform: skewX(-20deg);
+}
+
+@keyframes brand-shine {
+  0%, 100% { transform: translateX(0) skewX(-20deg); opacity: 0; }
+  20% { opacity: 1; }
+  60% { transform: translateX(90px) skewX(-20deg); opacity: 0; }
+}
+
+/* Single amber dot orbiting the mark */
+.brand-orbit-dot {
+  transform-origin: 28px 28px;
+  animation: brand-orbit-spin 8s linear infinite;
+}
+
+@keyframes brand-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.navbar-brand:hover .brand-svg {
+  filter: drop-shadow(0 8px 18px rgba(220, 38, 38, 0.45));
+  transform: scale(1.06);
 }
 
 .brand-text {
@@ -83,8 +112,8 @@
 }
 
 .navbar-links button:hover {
-  color: var(--garnet);
-  background: rgba(194, 30, 79, 0.06);
+  color: var(--red);
+  background: rgba(220, 38, 38, 0.06);
 }
 
 .navbar-links .nav-cta {
@@ -96,7 +125,7 @@
 }
 
 .navbar-links .nav-cta:hover {
-  background: var(--garnet);
+  background: var(--red);
   color: var(--white);
   transform: translateY(-1px);
   box-shadow: var(--shadow-warm);
