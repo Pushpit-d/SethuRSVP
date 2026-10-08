@@ -101,12 +101,15 @@ function Reveal({ children, className = '', delay = 0 }) {
   )
 }
 
-// Each slot can override object-position so faces are safe during
-// the Ken Burns zoom. Default is "center 20%" (favor top).
+// Each slot can override object-position so faces sit naturally
+// during the Ken Burns zoom. Default is "center 20%" (favor top).
 const HERO_PHOTOS = [
   { src: '/Sethu60-1.webp' },
   { src: '/Sethu60-2.webp' },
-  { src: '/Sethu60-3.webp', position: 'center 42%' },
+  // Couple photo has extra ceiling above heads — anchor to the very
+  // top so the natural headroom in the source gives their heads a
+  // lower, more balanced position in the frame.
+  { src: '/Sethu60-3.webp', position: 'center top' },
   { src: '/Sethu60-4.webp' },
 ]
 const PHOTO_INTERVAL_MS = 4200
