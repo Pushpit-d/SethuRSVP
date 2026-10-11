@@ -449,7 +449,6 @@ export default function MainPage() {
               <span className="count-label">sec</span>
             </div>
           </div>
-          <p className="countdown-tz">All times {EVENT_TZ_SHORT} (Omaha, Nebraska)</p>
 
           <div className="hero-actions">
             <button className="btn-primary" onClick={() => document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' })}>
