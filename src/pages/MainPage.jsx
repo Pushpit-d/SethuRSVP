@@ -105,7 +105,6 @@ function Reveal({ children, className = '', delay = 0 }) {
 // during the Ken Burns zoom. Default is "center 20%" (favor top).
 const HERO_PHOTOS = [
   { src: '/Sethu60-1.webp' },
-  { src: '/Sethu60-2.webp' },
   // Couple photo has extra ceiling above heads — anchor to the very
   // top so the natural headroom in the source gives their heads a
   // lower, more balanced position in the frame.
