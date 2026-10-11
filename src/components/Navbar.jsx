@@ -7,20 +7,20 @@ function BrandMark() {
       <defs>
         <linearGradient id="medalFill" x1="20%" y1="10%" x2="80%" y2="90%">
           <stop offset="0%" stopColor="#F87171" />
-          <stop offset="55%" stopColor="#DC2626" />
-          <stop offset="100%" stopColor="#7F1D1D" />
+          <stop offset="55%" stopColor="#9333EA" />
+          <stop offset="100%" stopColor="#4C1D95" />
         </linearGradient>
         <linearGradient id="ribbonLeft" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#EF4444" />
-          <stop offset="100%" stopColor="#991B1B" />
+          <stop offset="0%" stopColor="#A855F7" />
+          <stop offset="100%" stopColor="#6B21A8" />
         </linearGradient>
         <linearGradient id="ribbonRight" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#DC2626" />
-          <stop offset="100%" stopColor="#7F1D1D" />
+          <stop offset="0%" stopColor="#9333EA" />
+          <stop offset="100%" stopColor="#4C1D95" />
         </linearGradient>
         <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FBBF24" />
-          <stop offset="50%" stopColor="#F59E0B" />
+          <stop offset="0%" stopColor="#86EFAC" />
+          <stop offset="50%" stopColor="#22C55E" />
           <stop offset="100%" stopColor="#B45309" />
         </linearGradient>
         <radialGradient id="shineGlow" cx="35%" cy="30%" r="55%">
@@ -59,7 +59,7 @@ function BrandMark() {
       <circle cx="26" cy="24" r="19" fill="url(#medalFill)" />
 
       {/* Inner highlight ring */}
-      <circle cx="26" cy="24" r="17" fill="none" stroke="rgba(251, 191, 36, 0.5)" strokeWidth="0.8" />
+      <circle cx="26" cy="24" r="17" fill="none" stroke="rgba(134, 239, 172, 0.5)" strokeWidth="0.8" />
 
       {/* Shine */}
       <circle cx="26" cy="24" r="19" fill="url(#shineGlow)" />
@@ -79,7 +79,7 @@ function BrandMark() {
       </text>
 
       {/* Orbiting amber spark */}
-      <circle className="brand-spark" cx="26" cy="2" r="1.8" fill="#FBBF24" />
+      <circle className="brand-spark" cx="26" cy="2" r="1.8" fill="#86EFAC" />
     </svg>
   )
 }

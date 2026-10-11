@@ -8,5 +8,9 @@ CREATE TABLE rsvps (
   phone text,
   guest_count integer NOT NULL DEFAULT 1,
   meal_preferences jsonb NOT NULL DEFAULT '[]',
+  message text,
   submitted_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- If upgrading an existing database, run this instead:
+-- ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS message text;

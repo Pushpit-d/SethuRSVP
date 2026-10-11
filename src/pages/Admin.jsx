@@ -185,6 +185,7 @@ export default function Admin() {
                   <th>Phone</th>
                   <th>Guests</th>
                   <th>Meals</th>
+                  <th>Message</th>
                   <th>Date</th>
                   <th></th>
                 </tr>
@@ -202,6 +203,13 @@ export default function Admin() {
                           {m.preference === 'vegetarian' ? 'V' : 'NV'}
                         </span>
                       ))}
+                    </td>
+                    <td className="td-message">
+                      {r.message ? (
+                        <span title={r.message}>{r.message}</span>
+                      ) : (
+                        <span className="td-empty">—</span>
+                      )}
                     </td>
                     <td className="td-date">
                       {new Date(r.submitted_at).toLocaleDateString('en-US', {

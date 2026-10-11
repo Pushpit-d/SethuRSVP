@@ -67,7 +67,7 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
   const mealRows = mealPreferences
     .map(
       (m) =>
-        `<tr><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #3D1F1F;">Guest ${m.guest}</td><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #8B6F5E; text-align: right; text-transform: capitalize;">${m.preference}</td></tr>`
+        `<tr><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #3B2454;">Guest ${m.guest}</td><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #8B7B9A; text-align: right; text-transform: capitalize;">${m.preference}</td></tr>`
     )
     .join('')
 
@@ -78,61 +78,61 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your RSVP is confirmed</title>
 </head>
-<body style="margin: 0; padding: 0; background: #FFF8ED; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;">
+<body style="margin: 0; padding: 0; background: #FBFAFF; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;">
   <div style="max-width: 560px; margin: 0 auto; padding: 32px 16px;">
 
     <!-- Hero -->
-    <div style="background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%); border-radius: 20px 20px 0 0; padding: 44px 32px 36px; text-align: center; position: relative;">
-      <div style="width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, #FBBF24, #F59E0B); margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center; line-height: 68px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
-        <span style="font-family: 'Georgia', serif; color: #7F1D1D; font-size: 26px; font-weight: 700; letter-spacing: -1px; display: inline-block; line-height: 68px;">60</span>
+    <div style="background: linear-gradient(135deg, #9333EA 0%, #6B21A8 100%); border-radius: 20px 20px 0 0; padding: 44px 32px 36px; text-align: center; position: relative;">
+      <div style="width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, #86EFAC, #22C55E); margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center; line-height: 68px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+        <span style="font-family: 'Georgia', serif; color: #4C1D95; font-size: 26px; font-weight: 700; letter-spacing: -1px; display: inline-block; line-height: 68px;">60</span>
       </div>
       <h1 style="color: #ffffff; font-family: 'Georgia', serif; font-size: 30px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.5px;">You're all set, ${firstName}!</h1>
       <p style="color: rgba(255,255,255,0.85); font-size: 15px; margin: 0; line-height: 1.5;">Your RSVP has been received. We can't wait to celebrate with you.</p>
     </div>
 
     <!-- Body -->
-    <div style="background: #ffffff; padding: 32px; border-left: 1px solid #F3E6D5; border-right: 1px solid #F3E6D5;">
+    <div style="background: #ffffff; padding: 32px; border-left: 1px solid #E9D5FF; border-right: 1px solid #E9D5FF;">
 
-      <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #DC2626; margin: 0 0 12px;">Event Details</p>
+      <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #9333EA; margin: 0 0 12px;">Event Details</p>
 
       <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
         <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; width: 80px;">Date</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500;">${EVENT.date}</td>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; width: 80px;">Date</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500;">${EVENT.date}</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5;">Time</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5;">${EVENT.time}</td>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF;">Time</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF;">${EVENT.time}</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5; vertical-align: top;">Venue</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5; line-height: 1.4;">
+          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF; vertical-align: top;">Venue</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF; line-height: 1.4;">
             ${EVENT.venue}<br>
-            <span style="font-family: -apple-system, sans-serif; font-size: 14px; color: #8B6F5E; font-weight: 400;">${EVENT.address}</span>
+            <span style="font-family: -apple-system, sans-serif; font-size: 14px; color: #8B7B9A; font-weight: 400;">${EVENT.address}</span>
           </td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B6F5E; border-top: 1px solid #F3E6D5;">Guests</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0808; font-weight: 500; border-top: 1px solid #F3E6D5;">${guestCount}</td>
+          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF;">Guests</td>
+          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF;">${guestCount}</td>
         </tr>
       </table>
 
-      <div style="background: #FFF8ED; border-radius: 14px; padding: 18px 20px;">
-        <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8B6F5E; margin: 0 0 10px;">Meal Preferences</p>
+      <div style="background: #FBFAFF; border-radius: 14px; padding: 18px 20px;">
+        <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8B7B9A; margin: 0 0 10px;">Meal Preferences</p>
         <table role="presentation" style="width: 100%; border-collapse: collapse;">
           ${mealRows}
         </table>
       </div>
 
-      <p style="font-size: 14px; color: #5C4A52; line-height: 1.6; margin: 28px 0 0;">
+      <p style="font-size: 14px; color: #5C4A6B; line-height: 1.6; margin: 28px 0 0;">
         We'll send any updates to this email address closer to the day. If anything changes, just reply to this email and let us know.
       </p>
     </div>
 
     <!-- Footer -->
-    <div style="background: #FEF2E8; border-radius: 0 0 20px 20px; border: 1px solid #F3E6D5; border-top: none; padding: 24px 32px; text-align: center;">
-      <p style="font-family: 'Georgia', serif; font-style: italic; font-size: 15px; color: #991B1B; margin: 0 0 4px;">With love from the family</p>
-      <p style="font-size: 12px; color: #8B6F5E; margin: 0; letter-spacing: 0.5px;">Omaha, Nebraska</p>
+    <div style="background: #F5F0FF; border-radius: 0 0 20px 20px; border: 1px solid #E9D5FF; border-top: none; padding: 24px 32px; text-align: center;">
+      <p style="font-family: 'Georgia', serif; font-style: italic; font-size: 15px; color: #6B21A8; margin: 0 0 4px;">With love from the family</p>
+      <p style="font-size: 12px; color: #8B7B9A; margin: 0; letter-spacing: 0.5px;">Omaha, Nebraska</p>
     </div>
 
   </div>
@@ -181,7 +181,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { firstName, lastName, email, phone, guestCount, mealPreferences, website } = req.body
+      const { firstName, lastName, email, phone, guestCount, mealPreferences, message, website } = req.body
 
       // Honeypot: if the hidden field is filled, silently drop as a successful "RSVP"
       if (website && website.trim() !== '') {
@@ -216,9 +216,14 @@ export default async function handler(req, res) {
       // Guest count sanity
       const guests = Math.max(1, Math.min(10, parseInt(guestCount, 10) || 1))
 
+      // Personal message (optional, capped at 240 chars)
+      const msg = typeof message === 'string' && message.trim()
+        ? message.trim().slice(0, 240)
+        : null
+
       await sql`
-        INSERT INTO rsvps (first_name, last_name, email, phone, guest_count, meal_preferences, submitted_at)
-        VALUES (${fn}, ${ln}, ${em}, ${phoneClean}, ${guests}, ${JSON.stringify(mealPreferences)}, NOW())
+        INSERT INTO rsvps (first_name, last_name, email, phone, guest_count, meal_preferences, message, submitted_at)
+        VALUES (${fn}, ${ln}, ${em}, ${phoneClean}, ${guests}, ${JSON.stringify(mealPreferences)}, ${msg}, NOW())
       `
 
       if (resend) {

@@ -2,9 +2,9 @@ import { useMemo } from 'react'
 import './Confetti.css'
 
 const COLORS = [
-  '#DC2626', '#EF4444', '#991B1B', // reds
-  '#FBBF24', '#F59E0B',             // golds
-  '#FB7185', '#FDBA74',             // coral / peach
+  '#9333EA', '#A855F7', '#6B21A8', // reds
+  '#86EFAC', '#22C55E',             // golds
+  '#C084FC', '#D8B4FE',             // coral / peach
   '#FFFFFF',                         // white
 ]
 
@@ -56,7 +56,7 @@ export default function Confetti({ count = 70 }) {
   )
 }
 
-const SCATTER_COLORS = ['#DC2626', '#EF4444', '#FBBF24', '#FB7185', '#F59E0B']
+const SCATTER_COLORS = ['#9333EA', '#A855F7', '#86EFAC', '#C084FC', '#22C55E']
 
 function Scatter({ positions }) {
   return (

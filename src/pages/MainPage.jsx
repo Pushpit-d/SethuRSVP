@@ -317,6 +317,8 @@ export default function MainPage() {
   const [error, setError] = useState('')
   const [phoneDigits, setPhoneDigits] = useState('')
   const [phoneError, setPhoneError] = useState('')
+  const [message, setMessage] = useState('')
+  const MESSAGE_MAX = 240
 
   function formatPhone(digits) {
     const d = digits.slice(0, 10)
@@ -382,6 +384,7 @@ export default function MainPage() {
           phone: phoneValue,
           guestCount,
           mealPreferences,
+          message: message.trim().slice(0, MESSAGE_MAX),
           website: formData.get('website') || '',
         }),
       })
@@ -659,6 +662,25 @@ export default function MainPage() {
                       </div>
                     ))}
                   </div>
+                </div>
+
+                <div className="field">
+                  <label htmlFor="message">
+                    A note for Sethu <span className="opt">optional</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="3"
+                    maxLength={MESSAGE_MAX}
+                    placeholder="Share a wish, a memory, or a quick note — it will appear on the digital board at the celebration."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <p className="field-hint">
+                    {message.length > 0 ? `${message.length} / ${MESSAGE_MAX}` : `Up to ${MESSAGE_MAX} characters.`}
+                    {' · Will be shown on the event’s digital board.'}
+                  </p>
                 </div>
 
                 {error && <p className="form-error">{error}</p>}

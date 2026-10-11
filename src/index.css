@@ -1,46 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Red-forward celebration palette (Sethu wears a lot of red) */
-  --ivory: #FFF8ED;
-  --cream: #FFEBD6;
-  --sand: #F5DFB8;
+  /* Light-green + purple celebration palette (event theme) */
+  --ivory: #FBFAFF;      /* very soft lavender-white background */
+  --cream: #F0FDF4;      /* soft mint cream for section bands */
+  --sand: #E9D5FF;       /* soft lavender for accents */
 
-  --red: #DC2626;
-  --red-deep: #991B1B;
-  --red-bright: #EF4444;
-  --red-dark: #7F1D1D;
-  --crimson: #B91C1C;
+  /* --red tokens now hold the purple family (kept as names so no refactor needed) */
+  --red: #9333EA;        /* vivid purple — primary */
+  --red-deep: #6B21A8;   /* deep purple */
+  --red-bright: #A855F7; /* bright purple */
+  --red-dark: #4C1D95;   /* indigo-purple */
+  --crimson: #7E22CE;    /* mid purple */
 
-  --marigold: #F59E0B;
-  --marigold-bright: #FBBF24;
-  --amber: #D97706;
+  /* --marigold tokens now hold the green family */
+  --marigold: #22C55E;        /* fresh green */
+  --marigold-bright: #86EFAC; /* light mint-green — the "accent" */
+  --amber: #16A34A;           /* deeper green */
 
-  --coral: #FB7185;
-  --peach: #FDBA74;
+  --coral: #C084FC;      /* soft purple (replaces coral) */
+  --peach: #D8B4FE;      /* light lavender (replaces peach) */
 
-  --ink: #1A0808;
-  --ink-soft: #3D1F1F;
-  --muted: #8B6F5E;
-  --muted-light: #B9A08C;
+  --ink: #1A0F2E;        /* deep purple-black */
+  --ink-soft: #3B2454;
+  --muted: #8B7B9A;      /* purple-tinted grey */
+  --muted-light: #BFB0CF;
 
   --white: #FFFFFF;
-  --border: rgba(26, 8, 8, 0.08);
-  --border-strong: rgba(26, 8, 8, 0.14);
+  --border: rgba(26, 15, 46, 0.08);
+  --border-strong: rgba(26, 15, 46, 0.14);
 
-  /* Signature gradients - red forward */
-  --sunset: linear-gradient(135deg, #FBBF24 0%, #EF4444 45%, #991B1B 100%);
-  --sunset-soft: linear-gradient(135deg, #FFEBD6 0%, #FDBA74 45%, #EF4444 100%);
-  --marigold-grad: linear-gradient(135deg, #FBBF24, #F59E0B);
-  --red-grad: linear-gradient(135deg, #EF4444, #991B1B);
-  --red-radial: radial-gradient(circle at 30% 30%, #EF4444, #991B1B 80%);
-  --warm-wash: linear-gradient(180deg, #FFF8ED 0%, #FFEBD6 100%);
+  /* Signature gradients — mint → purple blend */
+  --sunset: linear-gradient(135deg, #86EFAC 0%, #A855F7 50%, #6B21A8 100%);
+  --sunset-soft: linear-gradient(135deg, #DCFCE7 0%, #D8B4FE 45%, #A855F7 100%);
+  --marigold-grad: linear-gradient(135deg, #86EFAC, #22C55E);
+  --red-grad: linear-gradient(135deg, #A855F7, #6B21A8);
+  --red-radial: radial-gradient(circle at 30% 30%, #A855F7, #6B21A8 80%);
+  --warm-wash: linear-gradient(180deg, #FBFAFF 0%, #F0FDF4 100%);
 
-  --shadow-sm: 0 2px 8px rgba(153, 27, 27, 0.06);
-  --shadow-md: 0 12px 32px rgba(153, 27, 27, 0.08);
-  --shadow-lg: 0 24px 60px rgba(153, 27, 27, 0.12);
-  --shadow-warm: 0 8px 32px rgba(239, 68, 68, 0.3);
-  --shadow-red: 0 10px 30px rgba(220, 38, 38, 0.35);
+  --shadow-sm: 0 2px 8px rgba(107, 33, 168, 0.06);
+  --shadow-md: 0 12px 32px rgba(107, 33, 168, 0.08);
+  --shadow-lg: 0 24px 60px rgba(107, 33, 168, 0.12);
+  --shadow-warm: 0 8px 32px rgba(168, 85, 247, 0.3);
+  --shadow-red: 0 10px 30px rgba(147, 51, 234, 0.35);
 
   --font-display: 'Instrument Serif', 'Fraunces', Georgia, serif;
   --font-script: 'Fraunces', 'Instrument Serif', Georgia, serif;

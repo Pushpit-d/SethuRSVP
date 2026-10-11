@@ -7,12 +7,12 @@ export default function Footer() {
         <svg className="footer-mark" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#EF4444" />
-              <stop offset="100%" stopColor="#991B1B" />
+              <stop offset="0%" stopColor="#A855F7" />
+              <stop offset="100%" stopColor="#6B21A8" />
             </linearGradient>
             <linearGradient id="footerRing" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FBBF24" />
-              <stop offset="100%" stopColor="#EF4444" />
+              <stop offset="0%" stopColor="#86EFAC" />
+              <stop offset="100%" stopColor="#A855F7" />
             </linearGradient>
           </defs>
           <circle className="footer-ring" cx="28" cy="28" r="26" fill="none" stroke="url(#footerRing)" strokeWidth="1" strokeDasharray="2 3" />
