@@ -88,7 +88,7 @@ const chapters = [
     years: '1986–1996',
     title: 'Crossing Continents',
     points: [
-      '1987: Graduated, NIT Trichy',
+      '1988: Graduated, REC Trichy (now NIT)',
       'Six months in Gujarat',
       '1989: Moved to the USA',
       'Studied at Univ. of Nebraska',
