@@ -68,9 +68,9 @@ const chapters = [
     years: '1966–1976',
     title: 'Roots and Beginnings',
     points: [
-      '1966: Born November 20 in Trichy, India',
-      'Early childhood and schooling in Neyveli',
-      '1976: Moved to Triverumbur at age 10',
+      '1966: Born Nov 20, Trichy',
+      'Childhood in Neyveli',
+      '1976: Moved to Triverumbur',
     ],
   },
   {
@@ -78,8 +78,8 @@ const chapters = [
     years: '1976–1986',
     title: 'Formative Years',
     points: [
-      'Middle and high school in Triverumbur',
-      'Entered REC Trichy (now NIT Trichy)',
+      'School in Triverumbur',
+      'Entered REC Trichy (now NIT)',
       'Engineering studies begin',
     ],
   },
@@ -88,11 +88,11 @@ const chapters = [
     years: '1986–1996',
     title: 'Crossing Continents',
     points: [
-      '1987: Graduated from NIT Trichy',
-      'Six months working in Gujarat',
-      '1989: Moved to the USA, University of Nebraska–Lincoln',
-      '1991: Graduated and career begins',
-      '1996: Moved to Omaha, Nebraska',
+      '1987: Graduated, NIT Trichy',
+      'Six months in Gujarat',
+      '1989: Moved to the USA',
+      'Studied at Univ. of Nebraska',
+      '1996: Moved to Omaha',
     ],
   },
   {
@@ -103,7 +103,7 @@ const chapters = [
       '1997: Married',
       '1999: First son born',
       '2002: Second son born',
-      'Settled in Omaha and established his career',
+      'Settled in Omaha',
     ],
   },
   {
@@ -113,7 +113,7 @@ const chapters = [
     points: [
       'Raised two sons',
       'Advanced in career',
-      'Active in community and family life',
+      'Active in community',
     ],
   },
   {
@@ -121,9 +121,9 @@ const chapters = [
     years: '2016–2026',
     title: 'Legacy of Love',
     points: [
-      'Sons grew into young adults',
-      'Continued career and personal success',
-      '2026: Celebrates his 60th birthday',
+      'Sons grow into young adults',
+      'Continued success',
+      '2026: 60th birthday',
     ],
     highlight: true,
   },
