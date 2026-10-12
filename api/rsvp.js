@@ -90,7 +90,7 @@ function buildGuestEmail(firstName, guestCount, mealPreferences, siteUrl = 'http
     /* Hard-pin colors so dark-mode auto-inversion doesn't eat the hero. */
     :root { color-scheme: light dark; supported-color-schemes: light dark; }
     body, table, td, p, h1, span, div { -webkit-font-smoothing: antialiased; }
-    .hero-bg { background-color: #4C1D95 !important; }
+    .hero-bg { background-color: #1F0D40 !important; }
     .hero-title { color: #FFFFFF !important; }
     .hero-sub { color: #E9D5FF !important; }
     .card-bg { background-color: #FFFFFF !important; }
@@ -130,7 +130,7 @@ function buildGuestEmail(firstName, guestCount, mealPreferences, siteUrl = 'http
 
           <!-- Hero (solid deep purple that survives dark mode) -->
           <tr>
-            <td class="hero-bg" bgcolor="#4C1D95" align="center" style="background-color:#4C1D95;padding:40px 32px 36px;border-radius:20px 20px 0 0;">
+            <td class="hero-bg" bgcolor="#1F0D40" align="center" style="background-color:#1F0D40;padding:40px 32px 36px;border-radius:20px 20px 0 0;">
               <img src="${siteUrl}/logo-mark.png" alt="Sethu turns 60" width="120" height="120" class="hero-logo" style="display:block;margin:0 auto 16px;width:120px;height:auto;max-width:120px;border:0;outline:none;" />
               <h1 class="hero-title" style="color:#FFFFFF;font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;margin:0 0 10px;letter-spacing:-0.4px;line-height:1.2;">You're all set, ${firstName}!</h1>
               <p class="hero-sub" style="color:#E9D5FF;font-size:15px;margin:0;line-height:1.5;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;">Your RSVP has been received. We can't wait to celebrate with you.</p>
