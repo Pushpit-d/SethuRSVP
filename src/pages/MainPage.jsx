@@ -327,7 +327,6 @@ function Chapters({ items }) {
           className={`chapter ${i <= activeIdx ? 'is-active' : ''} ${c.highlight ? 'chapter-hl' : ''}`}
         >
           <div className="chapter-year">
-            <span className="chapter-ord">{c.ord}</span>
             <span className="chapter-years">{c.years}</span>
           </div>
           <div className="chapter-connector">
