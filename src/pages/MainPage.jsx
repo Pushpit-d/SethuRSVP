@@ -168,6 +168,7 @@ const HERO_PHOTOS = [
   // top so the natural headroom in the source gives their heads a
   // lower, more balanced position in the frame.
   { src: '/Sethu60-3.webp', position: 'center top' },
+  { src: '/sethu60-5.png' },
   { src: '/Sethu60-4.webp' },
 ]
 const PHOTO_INTERVAL_MS = 4200
