@@ -63,11 +63,70 @@ function getOutlookUrl() {
 }
 
 const chapters = [
-  { year: '1966', text: 'Born on November 20' },
-  { year: '1989', text: 'Moved to the United States for his master\'s' },
-  { year: '1990s', text: 'Settled in Nebraska and made it home' },
-  { year: '1997', text: 'Married in December' },
-  { year: '2026', text: 'Turning sixty this November', highlight: true },
+  {
+    ord: '1st Decade',
+    years: '1966–1976',
+    title: 'Roots and Beginnings',
+    points: [
+      '1966: Born November 20 in Trichy, India',
+      'Early childhood and schooling in Neyveli',
+      '1976: Moved to Triverumbur at age 10',
+    ],
+  },
+  {
+    ord: '2nd Decade',
+    years: '1976–1986',
+    title: 'Formative Years',
+    points: [
+      'Middle and high school in Triverumbur',
+      'Entered REC Trichy (now NIT Trichy)',
+      'Engineering studies begin',
+    ],
+  },
+  {
+    ord: '3rd Decade',
+    years: '1986–1996',
+    title: 'Crossing Continents',
+    points: [
+      '1987: Graduated from NIT Trichy',
+      'Six months working in Gujarat',
+      '1989: Moved to the USA, University of Nebraska–Lincoln',
+      '1991: Graduated and career begins',
+      '1996: Moved to Omaha, Nebraska',
+    ],
+  },
+  {
+    ord: '4th Decade',
+    years: '1996–2006',
+    title: 'Family Foundations',
+    points: [
+      '1997: Married',
+      '1999: First son born',
+      '2002: Second son born',
+      'Settled in Omaha and established his career',
+    ],
+  },
+  {
+    ord: '5th Decade',
+    years: '2006–2016',
+    title: 'Growing Together',
+    points: [
+      'Raised two sons',
+      'Advanced in career',
+      'Active in community and family life',
+    ],
+  },
+  {
+    ord: '6th Decade',
+    years: '2016–2026',
+    title: 'Legacy of Love',
+    points: [
+      'Sons grew into young adults',
+      'Continued career and personal success',
+      '2026: Celebrates his 60th birthday',
+    ],
+    highlight: true,
+  },
 ]
 
 const details = [
@@ -260,18 +319,21 @@ function Chapters({ items }) {
       ref={containerRef}
       style={{ '--progress': `${progress}%` }}
     >
-      <span className="chapters-track" />
-      <span className="chapters-fill" />
       {items.map((c, i) => (
         <div
           key={i}
           className={`chapter ${i <= activeIdx ? 'is-active' : ''} ${c.highlight ? 'chapter-hl' : ''}`}
+          style={{ transitionDelay: `${i * 60}ms` }}
         >
-          <div className="chapter-year">{c.year}</div>
-          <div className="chapter-connector">
-            <span className="chapter-dot" />
-          </div>
-          <div className="chapter-text">{c.text}</div>
+          <div className="chapter-dot" />
+          <span className="chapter-ord">{c.ord}</span>
+          <h3 className="chapter-years">{c.years}</h3>
+          <p className="chapter-title">{c.title}</p>
+          <ul className="chapter-points">
+            {c.points.map((p, j) => (
+              <li key={j}>{p}</li>
+            ))}
+          </ul>
         </div>
       ))}
     </div>
