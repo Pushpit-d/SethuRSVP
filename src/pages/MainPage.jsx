@@ -319,21 +319,28 @@ function Chapters({ items }) {
       ref={containerRef}
       style={{ '--progress': `${progress}%` }}
     >
+      <span className="chapters-track" />
+      <span className="chapters-fill" />
       {items.map((c, i) => (
         <div
           key={i}
           className={`chapter ${i <= activeIdx ? 'is-active' : ''} ${c.highlight ? 'chapter-hl' : ''}`}
-          style={{ transitionDelay: `${i * 60}ms` }}
         >
-          <div className="chapter-dot" />
-          <span className="chapter-ord">{c.ord}</span>
-          <h3 className="chapter-years">{c.years}</h3>
-          <p className="chapter-title">{c.title}</p>
-          <ul className="chapter-points">
-            {c.points.map((p, j) => (
-              <li key={j}>{p}</li>
-            ))}
-          </ul>
+          <div className="chapter-year">
+            <span className="chapter-ord">{c.ord}</span>
+            <span className="chapter-years">{c.years}</span>
+          </div>
+          <div className="chapter-connector">
+            <span className="chapter-dot" />
+          </div>
+          <div className="chapter-text">
+            <p className="chapter-title">{c.title}</p>
+            <ul className="chapter-points">
+              {c.points.map((p, j) => (
+                <li key={j}>{p}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       ))}
     </div>
