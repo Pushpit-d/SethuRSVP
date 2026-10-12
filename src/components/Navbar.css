@@ -27,86 +27,34 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.brand-svg {
-  width: 44px;
-  height: 50px;
-  filter: drop-shadow(0 6px 14px rgba(107, 33, 168, 0.3));
-  transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: visible;
+.navbar-brand:hover {
+  transform: scale(1.03);
 }
 
-/* Medal gently breathes */
-.brand-svg {
+.brand-logo {
+  height: 46px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(107, 33, 168, 0.12));
+  transition: filter 0.3s ease;
   animation: brand-breathe 5s ease-in-out infinite;
 }
 
 @keyframes brand-breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+  50% { transform: scale(1.015); }
 }
 
-/* Ribbon tails sway independently */
-.brand-ribbon {
-  transform-origin: 26px 30px;
-}
-
-.brand-ribbon-left {
-  animation: ribbon-sway-left 4s ease-in-out infinite;
-}
-
-.brand-ribbon-right {
-  animation: ribbon-sway-right 4s ease-in-out infinite;
-}
-
-@keyframes ribbon-sway-left {
-  0%, 100% { transform: rotate(-1deg); }
-  50% { transform: rotate(2deg); }
-}
-
-@keyframes ribbon-sway-right {
-  0%, 100% { transform: rotate(1deg); }
-  50% { transform: rotate(-2deg); }
-}
-
-/* Dashed gold laurel ring rotates slowly */
-.brand-ring {
-  transform-origin: 26px 24px;
-  animation: brand-spin 20s linear infinite;
-}
-
-@keyframes brand-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Amber spark orbits the medal */
-.brand-spark {
-  transform-origin: 26px 24px;
-  animation: brand-orbit 7s linear infinite;
-  filter: drop-shadow(0 0 2px #86EFAC);
-}
-
-@keyframes brand-orbit {
-  to { transform: rotate(360deg); }
-}
-
-.navbar-brand:hover .brand-svg {
-  filter: drop-shadow(0 10px 20px rgba(147, 51, 234, 0.5));
-  transform: scale(1.06) rotate(-2deg);
-}
-
-.brand-text {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.3px;
+.navbar-brand:hover .brand-logo {
+  filter: drop-shadow(0 4px 10px rgba(107, 33, 168, 0.22));
 }
 
 .navbar-links {
@@ -237,4 +185,12 @@
 @media (max-width: 720px) {
   .navbar-links { display: none; }
   .menu-btn { display: block; }
+}
+
+@media (max-width: 640px) {
+  .brand-logo { height: 38px; }
+}
+
+@media (max-width: 400px) {
+  .brand-logo { height: 34px; }
 }

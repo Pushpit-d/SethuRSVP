@@ -63,7 +63,7 @@ const EVENT = {
   calendarEnd: '20261126T190000Z',
 }
 
-function buildGuestEmail(firstName, guestCount, mealPreferences) {
+function buildGuestEmail(firstName, guestCount, mealPreferences, siteUrl = 'https://sethu60.vercel.app') {
   const mealRows = mealPreferences
     .map(
       (m) =>
@@ -110,8 +110,7 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
       .hero-title { font-size: 24px !important; }
       .detail-value { font-size: 15px !important; }
       .detail-label { width: auto !important; }
-      .hero-medal { width: 60px !important; height: 60px !important; }
-      .hero-medal-text { font-size: 22px !important; line-height: 60px !important; }
+      .hero-logo { width: 96px !important; max-width: 96px !important; }
     }
     /* True dark mode (where supported): slightly tweak the body wash so the
        card doesn't look flat against pure black. The hero stays dark purple
@@ -132,13 +131,7 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
           <!-- Hero (solid deep purple that survives dark mode) -->
           <tr>
             <td class="hero-bg" bgcolor="#4C1D95" align="center" style="background-color:#4C1D95;padding:40px 32px 36px;border-radius:20px 20px 0 0;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px;">
-                <tr>
-                  <td class="hero-medal" bgcolor="#FFFFFF" width="68" height="68" align="center" style="background-color:#FFFFFF;width:68px;height:68px;border-radius:50%;text-align:center;line-height:68px;">
-                    <span class="hero-medal-text" style="font-family:Georgia,'Times New Roman',serif;color:#4C1D95;font-size:26px;font-weight:700;letter-spacing:-1px;line-height:68px;">60</span>
-                  </td>
-                </tr>
-              </table>
+              <img src="${siteUrl}/logo-mark.png" alt="Sethu turns 60" width="120" height="120" class="hero-logo" style="display:block;margin:0 auto 16px;width:120px;height:auto;max-width:120px;border:0;outline:none;" />
               <h1 class="hero-title" style="color:#FFFFFF;font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;margin:0 0 10px;letter-spacing:-0.4px;line-height:1.2;">You're all set, ${firstName}!</h1>
               <p class="hero-sub" style="color:#E9D5FF;font-size:15px;margin:0;line-height:1.5;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;">Your RSVP has been received. We can't wait to celebrate with you.</p>
             </td>

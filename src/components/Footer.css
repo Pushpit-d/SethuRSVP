@@ -11,20 +11,12 @@
 }
 
 .footer-mark {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 20px;
+  width: 72px;
+  height: auto;
+  margin: 0 auto 18px;
   display: block;
-  filter: drop-shadow(0 6px 16px rgba(147, 51, 234, 0.35));
-}
-
-.footer-ring {
-  transform-origin: 28px 28px;
-  animation: footer-rotate 14s linear infinite;
-}
-
-@keyframes footer-rotate {
-  to { transform: rotate(360deg); }
+  border-radius: 10px;
+  filter: drop-shadow(0 6px 16px rgba(76, 29, 149, 0.3));
 }
 
 .footer-text {
