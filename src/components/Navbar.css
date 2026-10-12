@@ -8,7 +8,7 @@
 }
 
 .navbar.scrolled {
-  background: rgba(255, 248, 237, 0.82);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   box-shadow: 0 1px 0 var(--border);
@@ -30,12 +30,16 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 4px 10px;
+  border-radius: 14px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, box-shadow 0.3s ease;
+  margin-left: -10px;
 }
 
 .navbar-brand:hover {
   transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2px 10px rgba(107, 33, 168, 0.1);
 }
 
 .brand-logo {
@@ -43,7 +47,11 @@
   width: auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(107, 33, 168, 0.12));
+  /* Layered shadow: a tight dark halo so the thin gold arch outline
+     reads against any background, plus a soft purple glow for depth. */
+  filter:
+    drop-shadow(0 0 0.5px rgba(26, 15, 46, 0.35))
+    drop-shadow(0 2px 8px rgba(107, 33, 168, 0.18));
   transition: filter 0.3s ease;
   animation: brand-breathe 5s ease-in-out infinite;
 }
