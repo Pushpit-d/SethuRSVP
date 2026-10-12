@@ -18,7 +18,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  height: 68px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,7 +39,7 @@
 }
 
 .brand-logo {
-  height: 46px;
+  height: 58px;
   width: auto;
   display: block;
   object-fit: contain;
@@ -188,9 +188,13 @@
 }
 
 @media (max-width: 640px) {
-  .brand-logo { height: 38px; }
+  .navbar-inner { height: 68px; }
+  .brand-logo { height: 48px; }
+  .mobile-menu { top: 68px; }
 }
 
 @media (max-width: 400px) {
-  .brand-logo { height: 34px; }
+  .navbar-inner { height: 64px; }
+  .brand-logo { height: 42px; }
+  .mobile-menu { top: 64px; }
 }
