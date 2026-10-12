@@ -110,28 +110,30 @@ export default function Admin() {
     return (
       <main className="admin-page">
         <section className="admin-login">
-          <div className="login-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
+          <div className="login-card">
+            <div className="login-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h1>Admin Dashboard</h1>
+            <p>Enter your password to view RSVPs.</p>
+            <form onSubmit={handleLogin} className="login-form">
+              <input
+                type="password"
+                value={secret}
+                onChange={(e) => setSecret(e.target.value)}
+                placeholder="Password"
+                required
+                autoFocus
+              />
+              {error && <p className="login-error">{error}</p>}
+              <button type="submit" disabled={loading}>
+                {loading ? 'Checking...' : 'View RSVPs'}
+              </button>
+            </form>
           </div>
-          <h1>Admin Dashboard</h1>
-          <p>Enter your admin password to view RSVPs.</p>
-          <form onSubmit={handleLogin} className="login-form">
-            <input
-              type="password"
-              value={secret}
-              onChange={(e) => setSecret(e.target.value)}
-              placeholder="Admin password"
-              required
-              autoFocus
-            />
-            {error && <p className="login-error">{error}</p>}
-            <button type="submit" disabled={loading}>
-              {loading ? 'Checking...' : 'View RSVPs'}
-            </button>
-          </form>
         </section>
       </main>
     )
@@ -141,39 +143,77 @@ export default function Admin() {
 
   return (
     <main className="admin-page">
-      <section className="admin-header">
-        <div>
-          <h1>RSVP Dashboard</h1>
-          <p>{rsvps.length} {rsvps.length === 1 ? 'response' : 'responses'} received</p>
-        </div>
-        <button onClick={refresh} className="refresh-btn" disabled={loading}>
-          {loading ? 'Refreshing...' : 'Refresh'}
-        </button>
-      </section>
+      <div className="admin-shell">
+        <section className="admin-header">
+          <div className="admin-header-left">
+            <div className="admin-badge">60</div>
+            <div className="admin-header-text">
+              <h1>RSVP Dashboard</h1>
+              <p>{rsvps.length} {rsvps.length === 1 ? 'response' : 'responses'} received</p>
+            </div>
+          </div>
+          <button onClick={refresh} className="refresh-btn" disabled={loading}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            <span>{loading ? 'Refreshing' : 'Refresh'}</span>
+          </button>
+        </section>
 
-      <section className="stats-grid">
-        <div className="stat-card">
-          <p className="stat-label">Total RSVPs</p>
-          <p className="stat-value">{summary.totalRsvps}</p>
-        </div>
-        <div className="stat-card">
-          <p className="stat-label">Total Guests</p>
-          <p className="stat-value">{summary.totalGuests}</p>
-        </div>
-        <div className="stat-card">
-          <p className="stat-label">Vegetarian</p>
-          <p className="stat-value">{summary.totalVeg}</p>
-        </div>
-        <div className="stat-card">
-          <p className="stat-label">Non-Vegetarian</p>
-          <p className="stat-value">{summary.totalNonVeg}</p>
-        </div>
-      </section>
+        <section className="stats-grid">
+          <div className="stat-card stat-purple">
+            <div className="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <p className="stat-label">Total RSVPs</p>
+            <p className="stat-value">{summary.totalRsvps}</p>
+          </div>
+          <div className="stat-card stat-purple">
+            <div className="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <p className="stat-label">Total Guests</p>
+            <p className="stat-value">{summary.totalGuests}</p>
+          </div>
+          <div className="stat-card stat-green">
+            <div className="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a9 9 0 0 1 9 9c0 3.5-2 7-5 9-1.5-2-3-4-4-7-1 3-2.5 5-4 7-3-2-5-5.5-5-9a9 9 0 0 1 9-9z" />
+              </svg>
+            </div>
+            <p className="stat-label">Vegetarian</p>
+            <p className="stat-value">{summary.totalVeg}</p>
+          </div>
+          <div className="stat-card stat-purple">
+            <div className="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            </div>
+            <p className="stat-label">Non-Vegetarian</p>
+            <p className="stat-value">{summary.totalNonVeg}</p>
+          </div>
+        </section>
 
-      <section className="rsvp-table-section">
+        <section className="rsvp-table-section">
         {rsvps.length === 0 ? (
           <div className="empty-state">
-            <p>No RSVPs yet. Share your invitation link to start collecting responses.</p>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <p>No RSVPs yet.<br />Share your invitation link to start collecting responses.</p>
           </div>
         ) : (
           <div className="table-wrapper">
@@ -240,6 +280,7 @@ export default function Admin() {
           </div>
         )}
       </section>
+      </div>
 
       {confirmDelete && (
         <div className="modal-overlay" onClick={cancelDelete}>

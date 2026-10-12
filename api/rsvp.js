@@ -67,75 +67,142 @@ function buildGuestEmail(firstName, guestCount, mealPreferences) {
   const mealRows = mealPreferences
     .map(
       (m) =>
-        `<tr><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #3B2454;">Guest ${m.guest}</td><td style="padding: 6px 0; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #8B7B9A; text-align: right; text-transform: capitalize;">${m.preference}</td></tr>`
+        `<tr>
+           <td style="padding:8px 0;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#1A0F2E;">Guest ${m.guest}</td>
+           <td style="padding:8px 0;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#4C1D95;text-align:right;text-transform:capitalize;font-weight:600;">${m.preference}</td>
+         </tr>`
     )
     .join('')
 
+  // Build with explicit color-scheme + bgcolor attributes so it survives both
+  // light and dark modes across Gmail, Apple Mail, Outlook. Use solid colors
+  // (not gradients) in critical zones so clients that drop CSS backgrounds
+  // still render the brand.
   return `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
   <title>Your RSVP is confirmed</title>
+  <style>
+    /* Hard-pin colors so dark-mode auto-inversion doesn't eat the hero. */
+    :root { color-scheme: light dark; supported-color-schemes: light dark; }
+    body, table, td, p, h1, span, div { -webkit-font-smoothing: antialiased; }
+    .hero-bg { background-color: #4C1D95 !important; }
+    .hero-title { color: #FFFFFF !important; }
+    .hero-sub { color: #E9D5FF !important; }
+    .card-bg { background-color: #FFFFFF !important; }
+    .ink { color: #1A0F2E !important; }
+    .muted { color: #6B5B7A !important; }
+    .accent { color: #9333EA !important; }
+    .footer-bg { background-color: #F5F0FF !important; }
+    .footer-title { color: #6B21A8 !important; }
+    .meal-card { background-color: #F5F0FF !important; }
+    .divider { border-top: 1px solid #E9D5FF !important; }
+    /* Mobile */
+    @media only screen and (max-width: 480px) {
+      .wrapper { padding: 16px 10px !important; }
+      .hero-bg { padding: 32px 20px !important; border-radius: 16px 16px 0 0 !important; }
+      .card-bg { padding: 24px 20px !important; }
+      .footer-bg { padding: 20px 20px !important; border-radius: 0 0 16px 16px !important; }
+      .hero-title { font-size: 24px !important; }
+      .detail-value { font-size: 15px !important; }
+      .detail-label { width: auto !important; }
+      .hero-medal { width: 60px !important; height: 60px !important; }
+      .hero-medal-text { font-size: 22px !important; line-height: 60px !important; }
+    }
+    /* True dark mode (where supported): slightly tweak the body wash so the
+       card doesn't look flat against pure black. The hero stays dark purple
+       which already works in both modes. */
+    @media (prefers-color-scheme: dark) {
+      body { background-color: #0F0A1F !important; }
+      .wash { background-color: #0F0A1F !important; }
+    }
+  </style>
 </head>
-<body style="margin: 0; padding: 0; background: #FBFAFF; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;">
-  <div style="max-width: 560px; margin: 0 auto; padding: 32px 16px;">
+<body class="wash" style="margin:0;padding:0;background-color:#F5F0FF;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="wash" bgcolor="#F5F0FF" style="background-color:#F5F0FF;">
+    <tr>
+      <td align="center" class="wrapper" style="padding:28px 16px;">
 
-    <!-- Hero -->
-    <div style="background: linear-gradient(135deg, #9333EA 0%, #6B21A8 100%); border-radius: 20px 20px 0 0; padding: 44px 32px 36px; text-align: center; position: relative;">
-      <div style="width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, #86EFAC, #22C55E); margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center; line-height: 68px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
-        <span style="font-family: 'Georgia', serif; color: #4C1D95; font-size: 26px; font-weight: 700; letter-spacing: -1px; display: inline-block; line-height: 68px;">60</span>
-      </div>
-      <h1 style="color: #ffffff; font-family: 'Georgia', serif; font-size: 30px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.5px;">You're all set, ${firstName}!</h1>
-      <p style="color: rgba(255,255,255,0.85); font-size: 15px; margin: 0; line-height: 1.5;">Your RSVP has been received. We can't wait to celebrate with you.</p>
-    </div>
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;">
 
-    <!-- Body -->
-    <div style="background: #ffffff; padding: 32px; border-left: 1px solid #E9D5FF; border-right: 1px solid #E9D5FF;">
+          <!-- Hero (solid deep purple that survives dark mode) -->
+          <tr>
+            <td class="hero-bg" bgcolor="#4C1D95" align="center" style="background-color:#4C1D95;padding:40px 32px 36px;border-radius:20px 20px 0 0;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px;">
+                <tr>
+                  <td class="hero-medal" bgcolor="#FFFFFF" width="68" height="68" align="center" style="background-color:#FFFFFF;width:68px;height:68px;border-radius:50%;text-align:center;line-height:68px;">
+                    <span class="hero-medal-text" style="font-family:Georgia,'Times New Roman',serif;color:#4C1D95;font-size:26px;font-weight:700;letter-spacing:-1px;line-height:68px;">60</span>
+                  </td>
+                </tr>
+              </table>
+              <h1 class="hero-title" style="color:#FFFFFF;font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;margin:0 0 10px;letter-spacing:-0.4px;line-height:1.2;">You're all set, ${firstName}!</h1>
+              <p class="hero-sub" style="color:#E9D5FF;font-size:15px;margin:0;line-height:1.5;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;">Your RSVP has been received. We can't wait to celebrate with you.</p>
+            </td>
+          </tr>
 
-      <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #9333EA; margin: 0 0 12px;">Event Details</p>
+          <!-- Body card -->
+          <tr>
+            <td class="card-bg" bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:28px 32px;">
 
-      <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-        <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; width: 80px;">Date</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500;">${EVENT.date}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF;">Time</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF;">${EVENT.time}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF; vertical-align: top;">Venue</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF; line-height: 1.4;">
-            ${EVENT.venue}<br>
-            <span style="font-family: -apple-system, sans-serif; font-size: 14px; color: #8B7B9A; font-weight: 400;">${EVENT.address}</span>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding: 10px 0; font-size: 13px; color: #8B7B9A; border-top: 1px solid #E9D5FF;">Guests</td>
-          <td style="padding: 10px 0; font-family: 'Georgia', serif; font-size: 17px; color: #1A0F2E; font-weight: 500; border-top: 1px solid #E9D5FF;">${guestCount}</td>
-        </tr>
-      </table>
+              <p class="accent" style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9333EA;margin:0 0 14px;">Event Details</p>
 
-      <div style="background: #FBFAFF; border-radius: 14px; padding: 18px 20px;">
-        <p style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8B7B9A; margin: 0 0 10px;">Meal Preferences</p>
-        <table role="presentation" style="width: 100%; border-collapse: collapse;">
-          ${mealRows}
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;margin-bottom:24px;">
+                <tr>
+                  <td class="muted detail-label" style="padding:10px 0;font-size:13px;color:#6B5B7A;width:80px;vertical-align:top;">Date</td>
+                  <td class="ink detail-value" style="padding:10px 0;font-family:Georgia,serif;font-size:17px;color:#1A0F2E;font-weight:500;">${EVENT.date}</td>
+                </tr>
+                <tr>
+                  <td class="muted divider detail-label" style="padding:10px 0;font-size:13px;color:#6B5B7A;border-top:1px solid #E9D5FF;vertical-align:top;">Time</td>
+                  <td class="ink divider detail-value" style="padding:10px 0;font-family:Georgia,serif;font-size:17px;color:#1A0F2E;font-weight:500;border-top:1px solid #E9D5FF;">${EVENT.time}</td>
+                </tr>
+                <tr>
+                  <td class="muted divider detail-label" style="padding:10px 0;font-size:13px;color:#6B5B7A;border-top:1px solid #E9D5FF;vertical-align:top;">Venue</td>
+                  <td class="ink divider detail-value" style="padding:10px 0;font-family:Georgia,serif;font-size:17px;color:#1A0F2E;font-weight:500;border-top:1px solid #E9D5FF;line-height:1.4;">
+                    ${EVENT.venue}<br>
+                    <span class="muted" style="font-family:-apple-system,sans-serif;font-size:14px;color:#6B5B7A;font-weight:400;">${EVENT.address}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="muted divider detail-label" style="padding:10px 0;font-size:13px;color:#6B5B7A;border-top:1px solid #E9D5FF;vertical-align:top;">Guests</td>
+                  <td class="ink divider detail-value" style="padding:10px 0;font-family:Georgia,serif;font-size:17px;color:#1A0F2E;font-weight:500;border-top:1px solid #E9D5FF;">${guestCount}</td>
+                </tr>
+              </table>
+
+              <!-- Meals -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="meal-card" bgcolor="#F5F0FF" style="background-color:#F5F0FF;border-radius:14px;">
+                <tr>
+                  <td style="padding:16px 20px;">
+                    <p class="muted" style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6B5B7A;margin:0 0 10px;">Meal Preferences</p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+                      ${mealRows}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <p class="muted" style="font-size:14px;color:#6B5B7A;line-height:1.6;margin:24px 0 0;">
+                We'll send any updates to this email address closer to the day. If anything changes, just reply to this email and let us know.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td class="footer-bg" bgcolor="#F5F0FF" align="center" style="background-color:#F5F0FF;padding:22px 32px;border-radius:0 0 20px 20px;">
+              <p class="footer-title" style="font-family:Georgia,serif;font-style:italic;font-size:15px;color:#6B21A8;margin:0 0 4px;">With love from the family</p>
+              <p class="muted" style="font-size:12px;color:#6B5B7A;margin:0;letter-spacing:0.5px;">Omaha, Nebraska</p>
+            </td>
+          </tr>
+
         </table>
-      </div>
 
-      <p style="font-size: 14px; color: #5C4A6B; line-height: 1.6; margin: 28px 0 0;">
-        We'll send any updates to this email address closer to the day. If anything changes, just reply to this email and let us know.
-      </p>
-    </div>
-
-    <!-- Footer -->
-    <div style="background: #F5F0FF; border-radius: 0 0 20px 20px; border: 1px solid #E9D5FF; border-top: none; padding: 24px 32px; text-align: center;">
-      <p style="font-family: 'Georgia', serif; font-style: italic; font-size: 15px; color: #6B21A8; margin: 0 0 4px;">With love from the family</p>
-      <p style="font-size: 12px; color: #8B7B9A; margin: 0; letter-spacing: 0.5px;">Omaha, Nebraska</p>
-    </div>
-
-  </div>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>`
 }
