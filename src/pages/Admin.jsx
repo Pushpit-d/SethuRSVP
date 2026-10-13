@@ -172,12 +172,7 @@ export default function Admin() {
       <main className="admin-page">
         <section className="admin-login">
           <div className="login-card">
-            <div className="login-icon">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </div>
+            <img src="/logo-mark.png" alt="Sethu turns 60" className="login-mark" />
             <h1>Admin Dashboard</h1>
             <p>Enter your password to view RSVPs.</p>
             <form onSubmit={handleLogin} className="login-form">
@@ -207,7 +202,7 @@ export default function Admin() {
       <div className="admin-shell">
         <section className="admin-header">
           <div className="admin-header-left">
-            <div className="admin-badge">60</div>
+            <img src="/logo-mark.png" alt="Sethu turns 60" className="admin-badge" />
             <div className="admin-header-text">
               <h1>RSVP Dashboard</h1>
               <p>{rsvps.length} {rsvps.length === 1 ? 'response' : 'responses'} received</p>

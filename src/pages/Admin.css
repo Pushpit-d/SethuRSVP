@@ -47,6 +47,14 @@
   box-shadow: var(--shadow-warm);
 }
 
+.login-mark {
+  display: block;
+  width: 76px;
+  height: auto;
+  margin: 0 auto 20px;
+  filter: drop-shadow(0 6px 16px rgba(76, 29, 149, 0.3));
+}
+
 .admin-login h1 {
   font-family: var(--font-script);
   font-size: 30px;
@@ -140,20 +148,11 @@
 }
 
 .admin-badge {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--red-grad);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: -0.5px;
-  box-shadow: var(--shadow-warm);
+  width: 58px;
+  height: auto;
+  display: block;
   flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(76, 29, 149, 0.28));
 }
 
 .admin-header-text h1 {
