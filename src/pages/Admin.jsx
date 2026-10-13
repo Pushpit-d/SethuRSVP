@@ -10,6 +10,7 @@ export default function Admin() {
   const [confirmDelete, setConfirmDelete] = useState(null) // the rsvp row to delete
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState('')
+  const [viewMessage, setViewMessage] = useState(null) // the rsvp whose message to view
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -53,6 +54,66 @@ export default function Admin() {
       /* silent */
     }
     setLoading(false)
+  }
+
+  function exportCsv() {
+    if (!data?.rsvps?.length) return
+
+    const escape = (val) => {
+      const s = val == null ? '' : String(val)
+      // Wrap in quotes and escape any embedded quotes if the value contains a
+      // comma, quote or newline (Excel-safe CSV).
+      if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`
+      return s
+    }
+
+    const headers = [
+      'First Name',
+      'Last Name',
+      'Email',
+      'Phone',
+      'Guests',
+      'Vegetarian',
+      'Non-Vegetarian',
+      'Meal Breakdown',
+      'Message',
+      'Submitted At',
+    ]
+
+    const rows = data.rsvps.map((r) => {
+      const meals = r.meal_preferences || []
+      const veg = meals.filter((m) => m.preference === 'vegetarian').length
+      const nonVeg = meals.filter((m) => m.preference === 'non-vegetarian').length
+      const breakdown = meals
+        .map((m) => `Guest ${m.guest}: ${m.preference}`)
+        .join(' | ')
+      return [
+        r.first_name,
+        r.last_name,
+        r.email,
+        r.phone || '',
+        r.guest_count,
+        veg,
+        nonVeg,
+        breakdown,
+        r.message || '',
+        new Date(r.submitted_at).toISOString(),
+      ].map(escape).join(',')
+    })
+
+    const csv = [headers.map(escape).join(','), ...rows].join('\n')
+    // Prepend UTF-8 BOM so Excel reads the file as UTF-8 (handles em-dashes,
+    // accented names, etc.).
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    const timestamp = new Date().toISOString().slice(0, 10)
+    a.href = url
+    a.download = `sethu60-rsvps-${timestamp}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   async function handleDelete() {
@@ -152,14 +213,29 @@ export default function Admin() {
               <p>{rsvps.length} {rsvps.length === 1 ? 'response' : 'responses'} received</p>
             </div>
           </div>
-          <button onClick={refresh} className="refresh-btn" disabled={loading}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="23 4 23 10 17 10" />
-              <polyline points="1 20 1 14 7 14" />
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-            </svg>
-            <span>{loading ? 'Refreshing' : 'Refresh'}</span>
-          </button>
+          <div className="header-actions">
+            <button
+              onClick={exportCsv}
+              className="refresh-btn"
+              disabled={!rsvps.length}
+              title="Download RSVPs as CSV"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Export</span>
+            </button>
+            <button onClick={refresh} className="refresh-btn" disabled={loading}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+              <span>{loading ? 'Refreshing' : 'Refresh'}</span>
+            </button>
+          </div>
         </section>
 
         <section className="stats-grid">
@@ -246,7 +322,15 @@ export default function Admin() {
                     </td>
                     <td className="td-message">
                       {r.message ? (
-                        <span title={r.message}>{r.message}</span>
+                        <button
+                          type="button"
+                          className="message-cell"
+                          onClick={() => setViewMessage(r)}
+                          title="Click to read full message"
+                        >
+                          <span className="message-preview">{r.message}</span>
+                          <span className="message-more">Read full</span>
+                        </button>
                       ) : (
                         <span className="td-empty">—</span>
                       )}
@@ -315,6 +399,29 @@ export default function Admin() {
                 disabled={deleting}
               >
                 {deleting ? 'Deleting...' : 'Delete RSVP'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {viewMessage && (
+        <div className="modal-overlay" onClick={() => setViewMessage(null)}>
+          <div className="modal modal-message" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-icon modal-icon-message">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <h2>Note from {viewMessage.first_name} {viewMessage.last_name}</h2>
+            <p className="message-full">{viewMessage.message}</p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-cancel"
+                onClick={() => setViewMessage(null)}
+              >
+                Close
               </button>
             </div>
           </div>
