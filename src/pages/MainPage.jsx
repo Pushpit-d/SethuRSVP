@@ -482,10 +482,8 @@ export default function MainPage() {
         <div className="hero-content hero-content-centered">
           <h1 className="hero-title">
             <span className="title-line">Sethu</span>
-            <span className="title-sixty">
-              <span className="sixty-text">turns</span>
-              <span className="sixty-big">60</span>
-            </span>
+            <span className="sixty-text">turns</span>
+            <span className="sixty-big">60</span>
           </h1>
 
           <p className="hero-sub">
