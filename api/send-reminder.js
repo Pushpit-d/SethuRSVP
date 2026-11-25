@@ -7,8 +7,10 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-function buildReminderText(firstName) {
-  const name = (firstName || 'Friend').trim()
+function buildReminderText(firstName, lastName) {
+  const first = (firstName || '').trim()
+  const last = (lastName || '').trim()
+  const name = [first, last].filter(Boolean).join(' ') || 'Friend'
   return `Dear ${name},
 
 We're looking forward to celebrating Sethu's 60th birthday with you this Thursday, November 26!
@@ -55,20 +57,24 @@ export default async function handler(req, res) {
   if (to) {
     // Single target — look up name in DB if present, else derive from email handle
     const rows = await sql`
-      SELECT first_name, email FROM rsvps
+      SELECT first_name, last_name, email FROM rsvps
       WHERE LOWER(email) = LOWER(${to})
       LIMIT 1
     `
     if (rows.length > 0) {
-      recipients = [{ first_name: rows[0].first_name, email: rows[0].email }]
+      recipients = [{
+        first_name: rows[0].first_name,
+        last_name: rows[0].last_name,
+        email: rows[0].email,
+      }]
     } else {
       const handle = String(to).split('@')[0].split(/[._-]/)[0] || 'Friend'
       const name = handle.charAt(0).toUpperCase() + handle.slice(1).toLowerCase()
-      recipients = [{ first_name: name, email: to }]
+      recipients = [{ first_name: name, last_name: '', email: to }]
     }
   } else {
     const rows = await sql`
-      SELECT first_name, email FROM rsvps
+      SELECT first_name, last_name, email FROM rsvps
       WHERE email IS NOT NULL AND email <> ''
       ORDER BY submitted_at ASC
     `
@@ -98,7 +104,7 @@ export default async function handler(req, res) {
         to: [r.email],
         reply_to: replyTo,
         subject,
-        text: buildReminderText(r.first_name),
+        text: buildReminderText(r.first_name, r.last_name),
         headers: {
           'X-Entity-Ref-ID': `reminder-${Date.now()}-${r.email}`,
           'List-Unsubscribe': `<mailto:${unsubscribeAddr}?subject=Unsubscribe>`,
