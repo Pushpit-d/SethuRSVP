@@ -479,12 +479,7 @@ export default function MainPage() {
         <div className="hero-blob hero-blob-3" />
         <Confetti count={75} />
 
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="pulse-dot" />
-            You're Invited
-          </div>
-
+        <div className="hero-content hero-content-centered">
           <h1 className="hero-title">
             <span className="title-line">Sethu</span>
             <span className="title-sixty">
@@ -519,27 +514,42 @@ export default function MainPage() {
             </div>
           </div>
 
+          <div className="hero-live">
+            <div className="hero-live-label">
+              <span className="live-dot" />
+              <span>Live now</span>
+            </div>
+            <div className="hero-live-frame">
+              <iframe
+                src="https://www.youtube.com/embed/ClVyYTaKBAI?si=N_r4htY_NhBuYltG"
+                title="Sethu's 60th Birthday Celebration — Live Stream"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                frameBorder="0"
+              />
+            </div>
+          </div>
+
           <div className="hero-actions">
-            <button className="btn-primary" onClick={() => document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' })}>
-              <span>RSVP Now</span>
+            <a
+              className="btn-primary btn-live"
+              href="https://youtube.com/live/ClVyYTaKBAI?feature=share"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Open on YouTube</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
               </svg>
-            </button>
+            </a>
             <button className="btn-ghost" onClick={() => document.getElementById('details').scrollIntoView({ behavior: 'smooth' })}>
               Event details
             </button>
           </div>
         </div>
-
-        <div className="scroll-hint">
-          <span>Scroll</span>
-          <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
-            <path d="M6 1v16m0 0l5-5m-5 5l-5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </div>
-
-        <HeroPhotos />
       </section>
 
       {/* ─── ABOUT / JOURNEY ─── */}
